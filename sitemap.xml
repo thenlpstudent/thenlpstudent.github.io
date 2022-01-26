@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="https://thenlpstudent.github.io/sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<url>
+<loc>https://thenlpstudent.github.io/</loc>
+</url>
+<url>
+<loc>https://thenlpstudent.github.io/basics-of-reinforcement-learning-2.html</loc>
+<lastmod>2022-01-26T21:43:12+05:30</lastmod>
+</url>
+<url>
+<loc>https://thenlpstudent.github.io/the-multi-armed-bandit-problem.html</loc>
+<lastmod>2022-01-26T21:45:26+05:30</lastmod>
+</url>
+<url>
+<loc>https://thenlpstudent.github.io/the-transformer-explained.html</loc>
+<lastmod>2022-01-26T21:24:59+05:30</lastmod>
+</url>
+</urlset>
