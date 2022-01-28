@@ -3,7 +3,7 @@
     <title>The NLP Student </title>
     <link href="https://thenlpstudent.github.io/feed.xml" rel="self" />
     <link href="https://thenlpstudent.github.io" />
-    <updated>2022-01-28T21:24:33+05:30</updated>
+    <updated>2022-01-28T21:27:08+05:30</updated>
     <author>
         <name>The NLP Student</name>
     </author>
@@ -17,7 +17,7 @@
         <link href="https://thenlpstudent.github.io/dynamic-programming.html"/>
         <id>https://thenlpstudent.github.io/dynamic-programming.html</id>
 
-        <updated>2022-01-28T21:24:33+05:30</updated>
+        <updated>2022-01-28T21:27:08+05:30</updated>
             <summary>
                 <![CDATA[
                      Suppose you have done your fair share of programming interviews, have taken part in a competitive programming contest, or come from a computer science background. In that case, dynamic programming might be a pretty familiar term for you.&nbsp; It's a widely used design technique&hellip;
@@ -211,7 +211,7 @@ print(fibBottomUp(5000)) # it works :)
 </code></pre>
 
   <p>
-    For anyone curious the 5000th Fib number is&nbsp;38789697010821656375189091644290330432980419308161921046454709854443848896713863125&nbsp;
+    For anyone curious the 5000th Fib number is
   </p>
 
   <p>
