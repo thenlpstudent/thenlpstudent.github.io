@@ -1,1009 +1,377 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <title>The NLP Student </title>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+    <title>The NLP Student&#x27;s Blog</title>
     <link href="https://thenlpstudent.github.io/feed.xml" rel="self" />
     <link href="https://thenlpstudent.github.io" />
-    <updated>2022-01-28T21:28:08+05:30</updated>
+    <updated>2023-03-31T18:55:16+05:30</updated>
     <author>
         <name>The NLP Student</name>
     </author>
     <id>https://thenlpstudent.github.io</id>
 
     <entry>
-        <title>Dynamic Programming: Part I  </title>
+        <title>New post 2</title>
         <author>
             <name>The NLP Student</name>
         </author>
-        <link href="https://thenlpstudent.github.io/dynamic-programming.html"/>
-        <id>https://thenlpstudent.github.io/dynamic-programming.html</id>
+        <link href="https://thenlpstudent.github.io/new-post-2.html"/>
+        <id>https://thenlpstudent.github.io/new-post-2.html</id>
 
-        <updated>2022-01-28T21:28:08+05:30</updated>
-            <summary>
-                <![CDATA[
-                     Suppose you have done your fair share of programming interviews, have taken part in a competitive programming contest, or come from a computer science background. In that case, dynamic programming might be a pretty familiar term for you.&nbsp; It's a widely used design technique&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                
-  <p>
-    Suppose you have done your fair share of programming interviews, have taken part in a competitive programming contest, or come from a computer science background. In that case, dynamic programming might be a pretty familiar term for you.&nbsp;
-  </p>
-
-  <div class="post__toc">
-    <h3>Quick Links</h3>
-    <ul>
-      <li><a href="#what-is-dynamic-programmingnbsp">What is Dynamic Programming?&nbsp;</a><ul><li><a href="#optimal-substructurenbsp">Optimal Substructure&nbsp;</a></li><li><a href="#overlapping-subproblemsnbsp">Overlapping subproblems&nbsp;</a></li></ul></li><li><a href="#computing-the-nth-fibonacci-number">Computing the \(N^{th}\) Fibonacci number</a></li><li><a href="#the-naive-recursive-algorithm">The naive recursive algorithm</a></li><li><a href="#memorization">Memorization</a></li><li><a href="#the-bottomup-approach">The bottom-up approach</a></li><li><a href="#referencesnbsp">References&nbsp;</a></li>
-    </ul>
-  </div>
-  
-
-  <p>
-    It's a widely used<b> design technique for algorithms</b>, <b>invented in the 1950s by a famous computer scientist called <a href="https://en.wikipedia.org/wiki/Richard_E._Bellman" target="_blank">Richard Bellman</a></b>. You might know him by his work on shortest paths and the famous Bellman-Ford .&nbsp;
-  </p>
-
-    <h2 id="what-is-dynamic-programmingnbsp">
-      What is Dynamic Programming?&nbsp;
-    </h2>
-
-  <p>
-    <b>Dynamic programming is a mathematical optimization technique as well as it is a design technique. </b><br><br>It involves taking a complicated problem and breaking it down into simpler subproblems. Once you have solved the more straightforward sub-problems, you have solved the real problem. <br><br>The complicated problem should systematically be broken down into manageable smaller subproblems and thereby solved. <br><br>These sub-problems often overlap, meaning that once they are solved, the solution to these sub-problems can be reused, thus saving computation time in the future.&nbsp;
-  </p>
-
-  <p>
-    Two terms that you will encounter when studying dynamic programming are,&nbsp;
-  </p>
-
-  <ul>
-    <li>Optimal substructure&nbsp;</li><li>Overlapping subproblems&nbsp;<br></li>
-  </ul>
-
-    <h3 id="optimal-substructurenbsp">
-      Optimal Substructure&nbsp;
-    </h3>
-
-  <p>
-    The optimal substructure is the term used when the optimal solution to a problem can be constructed/derived from the optimal solutions to its subproblems.
-  </p>
-
-    <h3 id="overlapping-subproblemsnbsp">
-      Overlapping subproblems&nbsp;
-    </h3>
-
-  <p>
-    A problem has overlapping subproblems if the optimal solution to the problem can be derived from the optimal solutions to its subproblems (i.e., optimal substructure), and these subproblems are duplicated, meaning that we can reuse the optimal solution to them whenever they re-appear.&nbsp;&nbsp;
-  </p>
-
-  <p>
-    If we find a problem's optimal substructure and figure out if it has overlapping subproblems, dynamic programming can be used as a design technique to develop a solution that solves such complicated problems.
-  </p>
-
-    <h2 id="computing-the-nth-fibonacci-number">
-      Computing the \(N^{th}\) Fibonacci number
-    </h2>
-
-  <p>
-    As an intro to dynamic programming, we can look at the following famous problem: compute the Nth Fibonacci number.&nbsp;
-  </p>
-
-  <p>
-    The following recurrence relation defines the Fibonacci sequence.
-  </p>
-
-  <p>
-    $$T(n) = T(n-1) + T(n-2)$$
-  </p>
-
-  <p>
-    The base case of the Fibonacci sequence is that if n is less than or equal to 2, then the output is always 1.&nbsp;
-  </p>
-
-  <p>
-    For example, a typical sequence takes the following form:
-  </p>
-
-  <p>
-    $$1,1,2,3,5,8,13,21,34...$$&nbsp;
-  </p>
-
-  <p>
-    The recurrence relation can be visualized via a tree. For example, this tree shows that computing the \(N_{th}\) fib number depends on the \(N-1^{th}\) fib and \(N-2^{th}\) fib numbers. Likewise, the \(N-1^{th}\) fib number depends on \(N-3^{th}\) and \(N-4^{th}\) fib numbers, and so on.&nbsp;
-  </p>
-
-    <h2 id="the-naive-recursive-algorithm">
-      The naive recursive algorithm
-    </h2>
-
-  <p>
-    Therefore a <b>typical naive recursive algorithm </b>implemented in Python would have a computational complexity of \( O(2^n)\), which is exponential. Which means it doesn't scale well for more significant inputs.&nbsp;
-  </p>
-<pre class="line-numbers  language-python"><code>def fib(n):
-    if (n &lt;= 2): 
-        return 1 
-    else:
-        return fib(n-1) + fib(n-2) 
-
-fib(5) # works
-fib(20) # doesn't work - too slow. 
-</code></pre>
-
-  <p>
-    However, if you look at the tree and the nodes it has, you can see that many of these nodes are actually duplicated and appear quite often.<b><i> (Overlapping subproblems).&nbsp;</i></b>
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/5/Group-10.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/5/responsive/Group-10-xs.png 300w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-10-sm.png 480w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-10-md.png 768w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-10-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-10-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-10-2xl.png 1600w"  height="277" width="511" alt="" />
-      
-    </figure>
-
-    <h2 id="memorization">
-      Memorization
-    </h2>
-
-  <p>
-    Therefore DP suggests that whenever we break a complex problem such as computing the nth fib number into subproblems, and when these subproblems overlap, store them in memory to reuse them later to solve the same subproblem. Meaning that we don't have to compute the same subproblem repeatedly, saving computation time and resources in the long run. &nbsp;
-  </p>
-
-  <p>
-    Here's how you compute the \(N^{th}\) fib number with <b>memorization</b>, where you use a Python dictionary to cache the solutions to the subproblem to be later reused.&nbsp;
-  </p>
-<pre class="line-numbers  language-python"><code>def fibMemo(n, memo={}):
-    if n in memo:
-        return memo[n] 
-    elif n &lt;= 2:
-        memo[n] = 1 
-        return 1 
-    else:
-        memo[n] = fibMemo(n-1, memo) + fibMemo(n-2, memo) 
-        return memo[n] 
-</code></pre>
-
-  <p>
-    The computation tree looks as follows, as you can see, most of the nodes are now missing since repeated computation isn't necessary. So the algorithm turns out to be an O(n) algorithm.
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/5/Group-11.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/5/responsive/Group-11-xs.png 300w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-11-sm.png 480w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-11-md.png 768w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-11-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-11-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-11-2xl.png 1600w"  height="498" width="595" alt="" />
-      
-    </figure>
-
-  <p>
-    However, the call stack's space is limited since this algorithm is also recursive.&nbsp;
-  </p>
-<pre class="line-numbers  language-python"><code>print(fibMemo(5000)) # RecursionError: maximum recursion depth exceeded in comparison
-</code></pre>
-
-    <h2 id="the-bottomup-approach">
-      The bottom-up approach
-    </h2>
-
-  <p>
-    Another approach for computing the Nth fib number in O(n) time is called the bottom-up approach in DP.&nbsp;
-  </p>
-
-  <p>
-    Here we work by solving the subproblems in a bottom-up fashion, so intuitively, we would be solving the subproblems in the leaves of the computation tree, caching the solutions, and reusing them. At the same time, we move up the tree towards the root.&nbsp;
-  </p>
-
-  <p>
-    We can visualize the bottom-up idea for computing the nth fib number via the following diagram.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/5/Group-12.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/5/responsive/Group-12-xs.png 300w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-12-sm.png 480w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-12-md.png 768w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-12-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-12-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/5/responsive/Group-12-2xl.png 1600w"  height="142" width="645" alt="" />
-      
-    </figure>
-
-  <p>
-    Here's the algorithm that uses a simple for loop, looping from 0 to n, which also has a complexity of O(n); however, now we can use it to compute larger numbers of n, compared to the recursive implementation above.&nbsp;
-  </p>
-<pre class="line-numbers  language-python"><code>def fibBottomUp(n,memo={}):
-    k = 0 
-    while (k &lt;= n):
-        if (k &lt;= 2):
-            memo[k] = 1 
-        else:
-            memo[k] = memo[k-1] + memo[k-2] 
-        k += 1 
-    return memo[n] 
-    
-print(fibBottomUp(5000)) # it works :) 
-</code></pre>
-
-  <p>
-    For anyone curious the 5000th Fib number is
-  </p>
-
-  <p>
-    38789697010821656375189091644290330432980419308161921046454709854443848896713863125&nbsp; :D
-  </p>
-
-  <p>
-    That's all folks!&nbsp;
-  </p>
-
-  <p>
-    I will follow up this article with another article to extend the concept of Dynamic Programming to solve shortest paths in graph traversal.&nbsp;
-  </p>
-
-  <p>
-    So make sure that you follow me&nbsp;on Twitter @studentnlp so you won't miss my latest blog post, and as always, happy hacking! Cheers!.
-  </p>
-
-    <h2 id="referencesnbsp">
-      References&nbsp;
-    </h2>
-
-  <ul>
-    <li>Dynamic Programming by Richard E. Bellman&nbsp;</li><li><a href="https://www.youtube.com/watch?v=OQ5jsbhAv_M" target="_blank">Dynamic Programming I: Fibonacci, Shortest Paths MIT 6.006 Erik Demaine&nbsp;</a><br></li>
-  </ul>
-            ]]>
-        </content>
+        <updated>2023-03-31T18:55:16+05:30</updated>
+            <summary></summary>
+        <content></content>
     </entry>
     <entry>
         <title>The Multi-Armed Bandit Problem </title>
         <author>
             <name>The NLP Student</name>
         </author>
-        <link href="https://thenlpstudent.github.io/the-multi-armed-bandit-problem.html"/>
-        <id>https://thenlpstudent.github.io/the-multi-armed-bandit-problem.html</id>
+        <link href="https://thenlpstudent.github.io/the-multi-armed-bandits-problem.html"/>
+        <id>https://thenlpstudent.github.io/the-multi-armed-bandits-problem.html</id>
 
-        <updated>2022-01-28T10:03:02+05:30</updated>
+        <updated>2021-10-27T08:04:03+05:30</updated>
             <summary>
                 <![CDATA[
-                     In solving the problem of exploration vs. exploitation in reinforcement learning, we use bandit problems to understand and apply algorithms that balance RL agents' exploration and exploitation behaviors. What exactly is the multi-armed bandit problem, and how can you solve this type of problem&hellip;
+                    In solving the problem of exploration vs. exploitation in reinforcement learning, we use bandit problems to understand and apply algorithms that balance RL agents' exploration and exploitation behaviors. What exactly is the multi-armed bandit problem, and how can you solve this type of problem in&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                
-  <p>
-    In solving the problem of exploration vs. exploitation in reinforcement learning, we use bandit problems to understand and apply algorithms that balance RL agents' exploration and exploitation behaviors. 
-<br>
-<br>What exactly is the multi-armed bandit problem, and how can you solve this type of problem in RL? 
-<br>
-<br>This blog post focuses on doing just that.
-  </p>
-
-  <div class="post__toc">
-    <h3>Quick Links</h3>
-    <ul>
-      <li><a href="#what-is-the-multi-armed-bandit-problemnbsp">What is the Multi Armed Bandit Problem?&nbsp;</a></li><li><a href="#stationary-vs-non-stationary-bandit-problemnbsp">Stationary vs Non Stationary Bandit Problem&nbsp;</a></li><li><a href="#solve-by-taking-estimatesnbsp">Solve by taking estimates&nbsp;</a></li><li><a href="#incremental-updates">Incremental Updates</a></li><li><a href="#solving-nonstationary-bandit-problems">Solving non-stationary bandit problems</a></li><li><a href="#pseudocode-code-and-resultsnbsp">Pseudo-code, Code, and Results&nbsp;</a></li><li><a href="#referencesnbsp">References&nbsp;</a></li>
-    </ul>
-  </div>
-  
-
-    <h2 id="what-is-the-multi-armed-bandit-problemnbsp">
-      What is the Multi Armed Bandit Problem?&nbsp;
-    </h2>
-
-  <p>
-    Consider the following situation that you find yourself in. 
-<br>You are faced repeatedly with 'k' different actions to take each time. 
-<br>After each action that you take at a given time, you receive a numerical reward.
-<br>
-<br>This reward is picked out from a stationary probability distribution that depends on your selected action. 
-<br>
-<br>Your goal in this problem is to maximize the total reward you receive over a period of time by selecting the best possible action at each time so that you maximize your reward. 
-<br>
-<br>In this problem, each action has an average reward. This average reward is the value of the action, or how good that action is. 
-<br>
-<br>If you knew the value of each action, then solving this problem would be very simple. Just pick the action with the highest value to get the biggest reward possible at the end. 
-<br>
-<br>However, you don't know the value of each of these actions. Therefore, you would need to explore and come up with estimates on the value of each action by taking random actions in the first few timesteps. 
-<br>
-<br>Once you have good guesses after the first few timesteps, then you are presented with a choice. 
-<br>
-<br>Either you can exploit, which means pick the action with the largest value estimate or continue to explore and re-adjust your current estimates of the values of your actions.&nbsp;
-  </p>
-
-    <h2 id="stationary-vs-non-stationary-bandit-problemnbsp">
-      Stationary vs Non Stationary Bandit Problem&nbsp;
-    </h2>
-
-  <p>
-    The rewards for the actions you or the reinforcement learning (RL) agent takes at the current timestep are sampled from a probability distribution. E.g., Gaussian Distribution. 
-<br>
-<br>In a stationary Bandit problem, the probability distribution doesn't change at each timestep, which means that the true value of each action is constant across all timesteps. However, in a non-stationary bandit problem, the probability distribution changes at every timestep. 
-<br>
-<br>Therefore the true value of each action at each timestep is quite different from other timesteps. 
-<br>
-<br>However, we can solve both variations of such bandit problems by estimating the value of each action, continuing to re-estimate them by trying different actions (exploration), or picking the highest calculated value action you currently have (exploitation)&nbsp;
-  </p>
-
-    <h2 id="solve-by-taking-estimatesnbsp">
-      Solve by taking estimates&nbsp;
-    </h2>
-
-  <p>
-    One way to solve the Multi-Armed Bandit problem is through estimating the true value of each action.
-<br>
-<br>Solving by estimating the true value of each action can either be applied to stationary and non-stationary bandit problems. 
-<br>
-<br>Firstly we need a few mathematical notations to formalize the bandit problem before finding a way to solve it.
-  </p>
-
-  <ul>
-    <li>\(A_t\)&nbsp;The action the agent picks at time \(t\)</li><li>\(R_t\) The reward the agent earns at time \(t\)&nbsp;</li><li>\(q_*(a)\) The true value of action \(a\)&nbsp;</li><li>\(Q_t(a)\) The estimated value of action \(a\) at timestep \(t\)&nbsp;</li>
-  </ul>
-
-  <p>
-    After exploration, we would want our RL agent to find closer estimates to the true value of action 'a'.&nbsp;
-  </p>
-
-  <p>
-    $$Q_t(a) \approx q_*(a)$$
-  </p>
-
-  <p>
-    To estimate the value of each action, we keep track of the total sum of rewards collected when we took a specific action 'a' and the number of times we took that action 'a'.
-<br>
-<br>By dividing as follows, we get an average estimate of how good that action is at the current timestep.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/4/f3pvei6l.bmp" height="88" width="768" alt="" />
-      
-    </figure>
-
-  <p>
-    &nbsp;
-  </p>
-
-  <p>
-    The below shows our definition for how the agent picks the suitable action at timestep t. 
-<br>
-<br>This equation is the greedy approach (exploitation) in which the agent selects the highest estimated action value as its next action. 
-<br>
-<br>The agent picks the action with the highest estimate, hoping that it would bring the highest possible reward for timestep 't'.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/4/5le8j0n3.bmp" height="67" width="258" alt="" />
-      
-    </figure>
-
-    <h2 id="incremental-updates">
-      Incremental Updates
-    </h2>
-
-  <p>
-    o keep things simple let us assume the following change in notation, <br>
-<br>Since the above is computationally costly, we can incrementally compute the mean by re-arranging the mean calculation using a little bit of algebra.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/4/0v6iehj4.bmp" height="474" width="564" alt="" />
-      
-    </figure>
-
-  <p>
-    This mean update has the following form used throughout in reinforcement learning for problems other than bandits.&nbsp;
-  </p>
-
-  <p>
-    The new estimate of the value of an action is the old estimate moved in the direction of the error between the current reward seen (i.e., 'target') and the old estimate.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/4/89qq4db3.bmp" height="63" width="768" alt="" />
-      
-    </figure>
-
-    <h2 id="solving-nonstationary-bandit-problems">
-      Solving non-stationary bandit problems
-    </h2>
-
-  <p>
-    When the optimal value changes from timestep to timestep, then you have a non-stationary bandit problem.
-<br>
-<br>The probability distribution in which rewards are sampled from the agent for the action it picks comes from a different probability distribution randomly at every timestep.
-<br>
-<br>Therefore the true value of each action is different at each timestep. 
-<br>
-<br>Therefore we cannot rely on average sampling.
-<br>
-<br>We need a mechanism in which we give more weight to rewards that we see recently instead of values we saw in the past and move the estimates of our action values towards recently seen reward signals.&nbsp;
-  </p>
-
-  <p>
-    This is done using a fixed step size parameter \(\alpha\) a constant parameter that lies between 0 and 1. 
-<br>
-<br>
-  </p>
-
-  <p>
-    $$\begin{aligned} Q_{n+1} &amp;= Q_n + \alpha[R_n + Q_n] \\ &amp;= \alpha R_n + (1 - \alpha)Q_n \\ &amp;= \alpha R_n + (1 - \alpha)Q_n \\ &amp;= \alpha R_n + (1 - \alpha)[\alpha R_{n-1} + (1-\alpha)Q_{n-1}] \\ &amp;= \alpha R_n + (1 - \alpha)[\alpha R_{n-1} + (1-\alpha)Q_{n-1}] \\ &amp;= \alpha R_n + (1 - \alpha) \alpha R_{n-1} + (1 - \alpha)^2 \alpha R_{n-2} + .... + (1- \alpha)^nQ_1 \\ &amp;= (1- \alpha)^nQ_1 + \sum^{n}_{i=1}\alpha(1 - \alpha)^{n-i}R_i \end{aligned}$$
-  </p>
-
-  <p>
-    By having a constant step size, the action values are updated so that the estimates are moved in the direction of the recent reward, as they have a higher weight and the older reward signals have a lower influence in the direction of where the estimates would move. 
-<br>
-<br>This makes the RL agents get more good action value estimates in non-stationary bandit problems.
-  </p>
-
-    <h2 id="pseudocode-code-and-resultsnbsp">
-      Pseudo-code, Code, and Results&nbsp;
-    </h2>
-
-  <p>
-    The following code snippet shows the pseudocode implementation of solving the bandit problem by estimating the value of each action.&nbsp;&nbsp;<br>
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/4/l2pbfqhm.bmp" height="458" width="768" alt="" />
-      
-    </figure>
-
-  <p>
-    The following code snippet is the complete implementation of solving a ten-armed bandit problem. At each timestep, the agent can pick any ten actions and get a reward based on a gaussian distribution. 
-<br>
-<br>This distribution doesn't change over timesteps. Therefore, this is a stationary bandit problem.&nbsp;&nbsp;<br>
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/4/rmfy9652.bmp" height="1001" width="768" alt="" />
-      
-    </figure>
-
-  <p>
-    The following code snippet is modified slightly to show how we can solve a non-stationary bandit problem.
-<br>
-<br>We can solve the problem using a step-size constant instead of counting how many times action 'a' was chosen before timestep t.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/4/jec1n3wa.bmp" height="417" width="768" alt="" />
-      
-    </figure>
-
-  <p>
-    The average reward at each timestep is stored in a list for each timestep.
-<br>
-<br>For example, the following graph shows how the epsilon parameter influences the epsilon-greedy algorithm to obtain high amounts of rewards over 10,000 timesteps.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/4/038ph1ea.bmp" height="480" width="640" alt="" />
-      
-    </figure>
-
-  <p>
-    The graph below shows how average sampling methods with a variable step size perform compared to fixed step size sampling methods for non-stationary bandit problems.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/4/ppkgqyjx.bmp" height="480" width="640" alt="" />
-      
-    </figure>
-
-  <p>
-    Thanks for reading this article this far! 
-<br>
-<br>Follow me on Twitter <a href="https://twitter.com/intent/user?screen_name=studentnlp" class="" target="_blank">@studentnlp</a> so you won't miss my latest blog post, and as always, happy hacking!
-  </p>
-
-    <h2 id="referencesnbsp">
-      References&nbsp;
-    </h2>
-
-  <ul>
-    <li>Sutton, R.S. &amp; Barto, A.G., 2018. Reinforcement learning: An introduction, MIT press.</li>
-  </ul>
-
-  <p>
-    &nbsp;
-  </p>
-
-  <p>
-    <figure class="post__image post__image--center"><br></figure>
-  </p>
+                <p>In solving the problem of exploration vs. exploitation in reinforcement learning, we use bandit problems to understand and apply algorithms that balance RL agents' exploration and exploitation behaviors. <br><br>What exactly is the multi-armed bandit problem, and how can you solve this type of problem in RL? <br><br>This blog post focuses on doing just that. </p>
+<div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1fimqv2jdp4">What is the Multi Armed Bandit Problem? </a>
+<ul>
+<li><a href="#mcetoc_1fimqv2jdp5">Stationary vs Non Stationary Bandit Problem </a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1fimqv2jdp6">Solve by taking estimates </a>
+<ul>
+<li><a href="#mcetoc_1fimqv2jdp7">Incremental Updates</a></li>
+<li><a href="#mcetoc_1fimt3ol2qu">Solving non-stationary bandit problems </a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1fivpg6e31e">Pseudocode, Code, and Results </a></li>
+<li><a href="#mcetoc_1fimqv2jdp9">References </a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1fimqv2jdp4">What is the Multi Armed Bandit Problem? </h2>
+<p>Consider the following situation that you find yourself in. <br>You are faced repeatedly with 'k' different actions to take each time. <br>After each action that you take at a given time, you receive a numerical reward.<br><br>This reward is picked out from a stationary probability distribution that depends on your selected action. <br><br>Your goal in this problem is to maximize the total reward you receive over a period of time by selecting the best possible action at each time so that you maximize your reward. <br><br>In this problem, each action has an average reward. This average reward is the value of the action, or how good that action is. <br><br>If you knew the value of each action, then solving this problem would be very simple. Just pick the action with the highest value to get the biggest reward possible at the end. <br><br>However, you don't know the value of each of these actions. Therefore, you would need to explore and come up with estimates on the value of each action by taking random actions in the first few timesteps. <br><br>Once you have good guesses after the first few timesteps, then you are presented with a choice. <br><br>Either you can exploit, which means pick the action with the largest value estimate or continue to explore and re-adjust your current estimates of the values of your actions. </p>
+<h3 id="mcetoc_1fimqv2jdp5">Stationary vs Non Stationary Bandit Problem </h3>
+<p>The rewards for the actions you or the reinforcement learning (RL) agent takes at the current timestep are sampled from a probability distribution. E.g., Gaussian Distribution. <br><br>In a stationary Bandit problem, the probability distribution doesn't change at each timestep, which means that the true value of each action is constant across all timesteps. However, in a non-stationary bandit problem, the probability distribution changes at every timestep. <br><br>Therefore the true value of each action at each timestep is quite different from other timesteps. <br><br>However, we can solve both variations of such bandit problems by estimating the value of each action, continuing to re-estimate them by trying different actions (exploration), or picking the highest calculated value action you currently have (exploitation) </p>
+<h2 id="mcetoc_1fimqv2jdp6">Solve by taking estimates </h2>
+<p>One way to solve the Multi-Armed Bandit problem is through estimating the true value of each action.</p>
+<p>Solving by estimating the true value of each action can either be applied to stationary and non-stationary bandit problems. </p>
+<p>Firstly we need a few mathematical notations to formalize the bandit problem before finding a way to solve it.</p>
+<ul>
+<li>\( A_t \)  The action the agent picks at time \(t\)</li>
+<li>\( R_t \)    The reward the agent earns at time \(t\)</li>
+<li>\( q_*(a) \)   The true value of action \(a\)</li>
+<li>\( Q_t(a) \)   The estimated value of action \(a\) at timestep \(t\) </li>
+</ul>
+<p>After exploration, we would want our RL agent to find closer estimates to the true value of action 'a'. </p>
+<p>\[ Q_t(a) \approx q_*(a) \]</p>
+<p>To estimate the value of each action, we keep track of the total sum of rewards collected when we took a specific action 'a' and the number of times we took that action 'a'.</p>
+<p>By dividing as follows, we get an average estimate of how good that action is at the current timestep. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/3/captur1.PNG" alt="" width="818" height="94" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/3/responsive/captur1-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/3/responsive/captur1-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/3/responsive/captur1-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/3/responsive/captur1-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/3/responsive/captur1-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/3/responsive/captur1-2xl.PNG 1600w"></figure>
+<p>The below shows our definition for how the agent picks the suitable action at timestep t. <br><br>This equation is the greedy approach (exploitation) in which the agent selects the highest estimated action value as its next action. <br><br>The agent picks the action with the highest estimate, hoping that it would bring the highest possible reward for timestep 't'. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/3/captur2.PNG" alt="" width="258" height="67" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/3/responsive/captur2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/3/responsive/captur2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/3/responsive/captur2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/3/responsive/captur2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/3/responsive/captur2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/3/responsive/captur2-2xl.PNG 1600w"></figure>
+<h3 id="mcetoc_1fimqv2jdp7">Incremental Updates</h3>
+<p>To keep things simple let us assume the following change in notation, <br>  </p>
+<p>Since the above is computationally costly, we can incrementally compute the mean by re-arranging the mean calculation using a little bit of algebra. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/3/incremental-2.PNG" alt="" width="564" height="474" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/3/responsive/incremental-2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/3/responsive/incremental-2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/3/responsive/incremental-2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/3/responsive/incremental-2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/3/responsive/incremental-2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/3/responsive/incremental-2-2xl.PNG 1600w"></figure>
+<p>This mean update has the following form used throughout in reinforcement learning for problems other than bandits. <br><br>The new estimate of the value of an action is the old estimate moved in the direction of the error between the current reward seen (i.e., 'target') and the old estimate. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/3/updaterule.PNG" alt="" width="822" height="67" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/3/responsive/updaterule-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/3/responsive/updaterule-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/3/responsive/updaterule-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/3/responsive/updaterule-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/3/responsive/updaterule-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/3/responsive/updaterule-2xl.PNG 1600w"></figure>
+<h3 id="mcetoc_1fimt3ol2qu">Solving non-stationary bandit problems </h3>
+<p><span data-preserver-spaces="true">When the optimal value changes from timestep to timestep, then you have a non-stationary bandit problem.</span></p>
+<p><span data-preserver-spaces="true">The probability distribution in which rewards are sampled from the agent for the action it picks comes from a different probability distribution randomly at every timestep.</span></p>
+<p><span data-preserver-spaces="true">Therefore the true value of each action is different at each timestep. </span></p>
+<p><span data-preserver-spaces="true">Therefore we cannot rely on average sampling.</span></p>
+<p><span data-preserver-spaces="true">We need a mechanism in which we give more weight to rewards that we see recently instead of values we saw in the past and move the estimates of our action values towards recently seen reward signals. </span></p>
+<p><span data-preserver-spaces="true">This is done using a fixed step size parameter \( \alpha \), a </span><strong><span data-preserver-spaces="true">constant</span></strong><span data-preserver-spaces="true"> </span><strong><span data-preserver-spaces="true">parameter</span></strong><span data-preserver-spaces="true"> that lies between</span><strong><span data-preserver-spaces="true"> 0 and 1. </span></strong></p>
+<p>$$\begin{aligned} Q_{n+1} &amp;= Q_n + \alpha[R_n + Q_n] \\ &amp;= \alpha R_n + (1 - \alpha)Q_n \\ &amp;= \alpha R_n + (1 - \alpha)Q_n \\ &amp;= \alpha R_n + (1 - \alpha)[\alpha R_{n-1} + (1-\alpha)Q_{n-1}] \\ &amp;= \alpha R_n + (1 - \alpha)[\alpha R_{n-1} + (1-\alpha)Q_{n-1}] \\ &amp;= \alpha R_n + (1 - \alpha) \alpha R_{n-1} + (1 - \alpha)^2 \alpha R_{n-2} + .... + (1- \alpha)^nQ_1 \\ &amp;= (1- \alpha)^nQ_1 + \sum^{n}_{i=1}\alpha(1 - \alpha)^{n-i}R_i \end{aligned}$$</p>
+<p>By having a constant step size, the action values are updated so that the estimates are moved in the direction of the recent reward, as they have a higher weight and the older reward signals have a lower influence in the direction of where the estimates would move. </p>
+<p>This makes the RL agents get more good action value estimates in non-stationary bandit problems. </p>
+<h2 id="mcetoc_1fivpg6e31e"><span data-preserver-spaces="true">Pseudocode, Code, and Results </span></h2>
+<p>The following code snippet shows the pseudocode implementation of solving the bandit problem by estimating the value of each action. </p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/3/carbon7-2.png" alt="" width="1806" height="1076" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/3/responsive/carbon7-2-xs.png 300w ,https://thenlpstudent.github.io/media/posts/3/responsive/carbon7-2-sm.png 480w ,https://thenlpstudent.github.io/media/posts/3/responsive/carbon7-2-md.png 768w ,https://thenlpstudent.github.io/media/posts/3/responsive/carbon7-2-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/3/responsive/carbon7-2-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/3/responsive/carbon7-2-2xl.png 1600w"></figure>
+<p>The following code snippet is the complete implementation of solving a ten-armed bandit problem. At each timestep, the agent can pick any ten actions and get a reward based on a gaussian distribution. <br><br>This distribution doesn't change over timesteps. Therefore, this is a stationary bandit problem. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/3/maincode1-2.png" alt="" width="2354" height="3068" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/3/responsive/maincode1-2-xs.png 300w ,https://thenlpstudent.github.io/media/posts/3/responsive/maincode1-2-sm.png 480w ,https://thenlpstudent.github.io/media/posts/3/responsive/maincode1-2-md.png 768w ,https://thenlpstudent.github.io/media/posts/3/responsive/maincode1-2-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/3/responsive/maincode1-2-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/3/responsive/maincode1-2-2xl.png 1600w"></figure>
+<p>The following code snippet is modified slightly to show how we can solve a non-stationary bandit problem.<br><br>We can solve the problem using a step-size constant instead of counting how many times action 'a' was chosen before timestep t. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/3/stepsize.png" alt="" width="2354" height="1278" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/3/responsive/stepsize-xs.png 300w ,https://thenlpstudent.github.io/media/posts/3/responsive/stepsize-sm.png 480w ,https://thenlpstudent.github.io/media/posts/3/responsive/stepsize-md.png 768w ,https://thenlpstudent.github.io/media/posts/3/responsive/stepsize-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/3/responsive/stepsize-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/3/responsive/stepsize-2xl.png 1600w"></figure>
+<p>The average reward at each timestep is stored in a list for each timestep.</p>
+<p>For example, the following graph shows how the epsilon parameter influences the epsilon-greedy algorithm to obtain high amounts of rewards over 10,000 timesteps. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/3/f22.png" alt="" width="640" height="480" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/3/responsive/f22-xs.png 300w ,https://thenlpstudent.github.io/media/posts/3/responsive/f22-sm.png 480w ,https://thenlpstudent.github.io/media/posts/3/responsive/f22-md.png 768w ,https://thenlpstudent.github.io/media/posts/3/responsive/f22-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/3/responsive/f22-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/3/responsive/f22-2xl.png 1600w"></figure>
+<p>The graph below shows how average sampling methods with a variable step size perform compared to fixed step size sampling methods for non-stationary bandit problems. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/3/f2.png" alt="" width="640" height="480" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/3/responsive/f2-xs.png 300w ,https://thenlpstudent.github.io/media/posts/3/responsive/f2-sm.png 480w ,https://thenlpstudent.github.io/media/posts/3/responsive/f2-md.png 768w ,https://thenlpstudent.github.io/media/posts/3/responsive/f2-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/3/responsive/f2-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/3/responsive/f2-2xl.png 1600w"></figure>
+<p>Thanks for reading this article this far! </p>
+<p>Follow me on Twitter <a href="https://twitter.com/intent/user?screen_name=studentnlp" target="_blank" rel="noopener noreferrer">@studentnlp</a> so you won't miss my latest blog post, and as always, happy hacking!</p>
+<h2 id="mcetoc_1fimqv2jdp9">References </h2>
+<p><span class="ILfuVd"><span class="hgKElc">Sutton, R.S. &amp; Barto, A.G., 2018. Reinforcement learning: An introduction, MIT press.</span></span></p>
             ]]>
         </content>
     </entry>
     <entry>
-        <title>Basics of Reinforcement Learning</title>
+        <title>Basics of Reinforcement Learning: Part I</title>
         <author>
             <name>The NLP Student</name>
         </author>
-        <link href="https://thenlpstudent.github.io/basics-of-reinforcement-learning-2.html"/>
-        <id>https://thenlpstudent.github.io/basics-of-reinforcement-learning-2.html</id>
+        <link href="https://thenlpstudent.github.io/introduction-to-reinforcement-learning.html"/>
+        <id>https://thenlpstudent.github.io/introduction-to-reinforcement-learning.html</id>
 
-        <updated>2022-01-28T10:10:04+05:30</updated>
+        <updated>2021-10-21T07:51:32+05:30</updated>
             <summary>
                 <![CDATA[
-                     Welcome! In this article, we will be going over the fundamentals of reinforcement learning. We will discuss what reinforcement learning is, how agents learn from rewards and experiences, what policies and value functions are, and how to model environments in a Markov decision process&hellip;
+                    Welcome! In this article, we will be going over the fundamentals of reinforcement learning. We will discuss what reinforcement learning is, how agents learn from rewards and experiences, what policies and value functions are, and how to model environments in a Markov decision process step-by-step.
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                
-  <p>
-    Welcome! In this article, we will be going over the fundamentals of reinforcement learning. We will discuss what reinforcement learning is, how agents learn from rewards and experiences, what policies and value functions are, and how to model environments in a Markov decision process step-by-step.
-  </p>
-
-  <div class="post__toc">
-    <h3>Quick Links</h3>
-    <ul>
-      <li><a href="#what-is-reinforcement-learning-rl">What is Reinforcement Learning (RL)?</a><ul><li><a href="#what-is-a-rewardnbsp">What is a reward?&nbsp;</a></li><li><a href="#the-reward-hypothesisnbsp">The Reward Hypothesis&nbsp;</a></li></ul></li><li><a href="#components-in-reinforcement-learning">Components in Reinforcement learning</a><ul><li><a href="#the-agent-and-the-enviroment">The Agent and the Enviroment</a></li><li><a href="#what-is-the-markov-state">What is the Markov State?</a></li><li><a href="#returns-episodes-and-continuous-tasks">Returns, Episodes and Continuous Tasks</a></li><li><a href="#what-are-value-functions-and-policiesnbspnbsp">What are value functions and policies?&nbsp;&nbsp;</a></li></ul></li><li><a href="#the-markov-decision-process-mdp">The Markov Decision Process (MDP)</a><ul><li><a href="#the-value-functionnbsp">The Value Function&nbsp;</a></li><li><a href="#the-actionvalue-functionnbsp">The Action-Value Function&nbsp;</a></li></ul></li><li><a href="#solving-the-mdpnbsp">Solving the MDP&nbsp;</a><ul><li><a href="#the-optimal-value-and-actionvalue-function">The optimal value and action-value function</a></li></ul></li><li><a href="#grid-world-examplenbsp">Grid world Example&nbsp;</a></li><li><a href="#referencesnbsp">References&nbsp;</a></li>
-    </ul>
-  </div>
-  
-
-    <h2 id="what-is-reinforcement-learning-rl">
-      What is Reinforcement Learning (RL)?
-    </h2>
-
-  <p>
-    Reinforcement learning is a learning process in which agents learn through interacting with the environment and learn to take actions in a way that maximizes its reward signal. The reward signal is given by the environment depending on how well the agent performed in that environment. 
-<br>
-<br>Reinforcement learning is a computational approach that learns from interaction with an environment. The goal of a reinforcement learning agent is to maximize a numerical reward signal.&nbsp;
-  </p>
-
-    <h3 id="what-is-a-rewardnbsp">
-      What is a reward?&nbsp;
-    </h3>
-
-  <p>
-    A reward is a simple number given to the agent by the environment each time the agent interacts with the environment. The agent's goal is to maximize then the total amount of reward it receives, which means that the agent needs to maximize the cumulative reward in the long term, not the immediate reward in the short term.
-  </p>
-
-    <h3 id="the-reward-hypothesisnbsp">
-      The Reward Hypothesis&nbsp;
-    </h3>
-
-  <p>
-    The reward hypothesis states that an RL agent's goal is to maximize the expected value of the received scalar signal's cumulative reward. 
-<br>
-<br>Therefore, reinforcement learning gets based on learning methods that maximize the total cumulative reward by taking actions that help reach this goal.
-  </p>
-
-    <h2 id="components-in-reinforcement-learning">
-      Components in Reinforcement learning
-    </h2>
-
-  <p>
-    The two main components in any reinforcement learning-based algorithm are known as the agent and the environment.
-  </p>
-
-    <h3 id="the-agent-and-the-enviroment">
-      The Agent and the Enviroment
-    </h3>
-
-  <p>
-    An agent is a learner and the decision-maker inside an environment. The agent observes the environment and takes action, which is how the agent interacts with the environment. The environment then gives a reward to that agent based on the agent's action at that particular time and situation. 
-<br>
-<br>Everything that is outside of the agent is known as the environment.
-  </p>
-
-    <h3 id="what-is-the-markov-state">
-      What is the Markov State?
-    </h3>
-
-  <p>
-    In RL, understanding the concept of a state is vital. The state is the information that we use to determine what might happen next. Simply put, the state is a function of history. 
-<br>
-<br>The agent has its state, in which case the agent's state is the function of the agent's history and experiences collected by interacting with the environment.
-<br>
-<br>The environment also has its state, known as the environment state. 
-<br>
-<br>The agent's or the environment's state is a Markov state if the current state is independent of the past. This is because the past information (history) gets derived from the current state. Therefore the state doesn't depend on history. 
-<br>
-<br>"The future is independent of the past given the present" - and future states can be computed from the current state, and the history can be discarded. 
-<br>
-<br>Suppose the agent can access the environment state. In that case, the mathematical model of the RL problem is known as a fully observable Markov decision process, whereas if the agent cannot access the state of the environment, then it's known as a partially observable Markov decision process.
-  </p>
-
-    <h3 id="returns-episodes-and-continuous-tasks">
-      Returns, Episodes and Continuous Tasks
-    </h3>
-
-  <p>
-    The agent's goal is to maximize the total cumulative reward it receives from the environment over time. 
-<br>
-<br>To understand more about the return, we formalize it as follows. This is the basic form of the expected return, which is just the sum of all rewards gathered till the agent reaches the terminal state of the environment (last state of interaction with the environment) from some timestep t. Capital T denotes the final timestep.
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/mc11ifjj.bmp" height="56" width="344" alt="" />
-      
-    </figure>
-
-  <p>
-    Depending on the environment, the agent can work in episodic tasks or continuing tasks.
-<br>
-<br>
-<br>An episodic task ends at a specific terminal state S+ with different rewards for different outcomes. (All nonterminal states denoted as S.)
-<br>
-<br>E.g., winning and losing a game of chess, the next episode or next game begins independently of how the previous game ended) The terminal state ends, and the environment resets back into a starting state. 
-<br>
-<br>
-<br>Continous tasks don't have a terminal state. Therefore they go on without a limit. Here taking the total cumulative reward is tricky because the total cumulative reward will be T = ∞.  
-<br>
-<br>Now we introduce a notation known as the discount factor, a value between 0 and 1. This is so that in continuous environments, the total cumulative reward would not be ∞. 
-<br>If we set the discount factor closer to 0, the agent tends to try and optimize to get higher immediate rewards. On the other hand, if the discount factor is closer to 1, the agent looks ahead to long-term rewards.
-<br>
-<br>Therefore the agent now tries to select actions that maximize the sum of the discounted rewards (discounted return) it receives from timestep t onwards. So at each state, the agent tries to pick the best action at timestep t that maximizes the expected discounted return:
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/ly2wxwmw.bmp" height="66" width="522" alt="" />
-      
-    </figure>
-
-  <p>
-    In the following manner, the current expected discounted return at timestep t relates with the future discounted return at time step t+1. 
-<br>
-<br>Thus, the current expected discounted return is the immediate reward at timestep t plus the discounted expected return at time step t+1.
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/709gqe0n.bmp" height="100" width="408" alt="" />
-      
-    </figure>
-
-    <h3 id="what-are-value-functions-and-policiesnbspnbsp">
-      What are value functions and policies?&nbsp;&nbsp;
-    </h3>
-
-  <p>
-    Two other essential concepts in Reinforcement Learning are the value function and the policy function of an RL agent. 
-<br>
-<br>The value function of an RL agent describes how 'good' a state is in the long run.
-<br>
-<br>It's a function that maps a state to a value that describes how much total expected discounted return the agent would get if the agent takes actions starting from that given state.
-<br>
-<br>The policy is a function that maps a state with a given action. 
-<br>
-<br>Next, it describes how the behavior of the agent would be in the environment. Finally, it defines a way in which the agent would interact with the environment.
-<br>The policy function can either be discrete or stochastic, in the sense that it can map to certain actions based on an argmax function, where it picks the action that has the highest return (a greedy policy), or picks an action based on a probabilistic distribution.
-  </p>
-
-    <h2 id="the-markov-decision-process-mdp">
-      The Markov Decision Process (MDP)
-    </h2>
-
-  <p>
-    The Markov Decision Process is a classic formalization of sequential decision making, where actions influence the immediate reward at time step t and future states those actions and the rewards at those future states. 
-<br>
-<br>The MDP process formalizes and helps us derive equations on dealing with the trade-off between immediate and delayed rewards. 
-<br>
-<br>There are two types of values that we estimate by using an MDP, so that we can better deal with the immediate and delayed reward trade-off. 
-<br>
-<br>We estimate the optimal value function that gives each state S's best possible value given optimal action selections. 
-<br>
-<br>We also estimate the optimal action-value function, which takes in as arguments the action and the state the agent is in and gives how good of an action that action is depending on the state. 
-<br>
-<br>Estimating these state-dependent quantities is essential to accurately assign credit to the agent's actions in the environment to make decisions better to effectively trade-off between immediate and delayed rewards. 
-<br>
-<br>The agent would observe the current state at time step t and get the current reward from transitioning into that state. Then, the state would take action, which hopefully maximizes the discounted return for the next timestep. 
-<br>
-<br>The environment would process this action if the environment would produce the next state and reward the agent for moving into the new state. 
-<br>
-<br>
-<br>This is how the agent and the environment interact with each other. The agent's goal is to behave optimally in this environment, which is done by maximizing the total discounted return over time.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/4-2.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/3/responsive/4-2-xs.png 300w ,https://thenlpstudent.github.io/media/posts/3/responsive/4-2-sm.png 480w ,https://thenlpstudent.github.io/media/posts/3/responsive/4-2-md.png 768w ,https://thenlpstudent.github.io/media/posts/3/responsive/4-2-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/3/responsive/4-2-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/3/responsive/4-2-2xl.png 1600w"  height="333" width="768" alt="" />
-      
-    </figure>
-
-  <p>
-    While interacting with the environment, this would be the sequential history the agent goes through.
-<br>
-<br>For example, the agent starts at timestep 0, observes the state, takes action, and obtains a reward, and this cycle repeats.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/d45aue3n.bmp" height="49" width="433" alt="" />
-      
-    </figure>
-
-  <p>
-    The MDP describes the probability in which the agent transitions from one state to the next.
-<br>
-<br>The likelihood that given the agent is in a given state 's' and takes action' a', the likelihood that that agent would end up in a new state " s' " and gets a reward 'r' is described as follows,&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/crx7v8av.bmp" height="56" width="588" alt="" />
-      
-    </figure>
-
-  <p>
-    The probability in taking action 'a' from state 's' and transitioning to state " s' " is the summation for all rewards in set R (all possible reward values in the MDP), and their transition probability of starting at state 's', taking action 'a', transitioning to state " s' " and getting probability 'r' for all rewards in set R.
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/4xbzp16f.bmp" height="103" width="710" alt="" />
-      
-    </figure>
-
-  <p>
-    The expected reward for choosing action a from state s can be described as the summation of all rewards in R weighted over all the state transition probabilities from state 's', taking action 'a', landing in the state " s' " and getting a reward 'r' afterward.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/sx8psqdw.bmp" height="77" width="670" alt="" />
-      
-    </figure>
-
-  <p>
-    The expected reward the agent will receive at the current state " s' " given that the previous state and action was 's' and 'a', is the summation of all rewards R, weighted by the total probability of transitioning from state 's' to " s' " by taking action 'a' over the probability of transitioning from state 's' to " s' " by taking action 'a' and getting a specific reward 'r' in R.&nbsp;&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/tc008l17.bmp" height="78" width="737" alt="" />
-      
-    </figure>
-
-  <p>
-    Here it shows that the probability of transitioning from all states " s' " and getting all rewards 'r' from those states given that the agent was in state 's' and takes action 'a' sums to 1. This shows that the function 'p' specifies a probability distribution for each choice of state 's' and action 'a'.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/ps9q8ajh.bmp" height="81" width="521" alt="" />
-      
-    </figure>
-
-    <h3 id="the-value-functionnbsp">
-      The Value Function&nbsp;
-    </h3>
-
-  <p>
-    The value function defines how good it is to be in a particular state. 
-<br>
-<br>This means it gives the total expected discounted reward that is possible to receive, given that the agent continues to take actions from that state onward. 
-<br>
-<br>The value function depends upon the state, and the policy the agent follows since the selection of actions from state 's' onwards depends on the agent's policy or behavior. 
-<br>
-<br>The below equation shows that the value function when the agent uses a given policy π and starts at state s, is equivalent by the MDP to the expectation of the total discounted return from timestep t onwards, given that the agent currently at timestep t is on the state 's'.
-<br>
-<br>Afterward, we can expand the definition of the total discounted return and show that this is true for all states in the MDP.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/d6i0o5t7.bmp" height="68" width="613" alt="" />
-      
-    </figure>
-
-  <p>
-    We can also evaluate this expectation as follows by the recursive defintion of the total discounted return.
-<br>
-<br>Here it shows that the value function is the summation of all actions that can be made by the agent, and the probability the agent will choose that action  is weighted by the sum the transitioning probabiltieis of all states and rewards from state 's' by taking action 'a' multiplied by the immediate reward of the given transitioning probabilities plus the discounted value of the value function under policy π for the next state " s' ".
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/6hg84ikz.bmp" height="173" width="567" alt="" />
-      
-    </figure>
-
-    <h3 id="the-actionvalue-functionnbsp">
-      The Action-Value Function&nbsp;
-    </h3>
-
-  <p>
-    The action-value function maps a state and an action to show how much expected total discounted return the agent will receive from the environment if the agent starts at state 's' and takes action 'a' from that time until the environment terminates.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/tsamet0u.bmp" height="87" width="630" alt="" />
-      
-    </figure>
-
-    <h2 id="solving-the-mdpnbsp">
-      Solving the MDP&nbsp;
-    </h2>
-
-  <p>
-    Solving the MDP entails that we find the optimal value function or the optimal action-value function, which can be derived from the optimal value function in the MDP and allowing the agent to pick the best action that gives the highest possible action-value for the state that the agent is currently at timestep t.&nbsp;
-  </p>
-
-    <h3 id="the-optimal-value-and-actionvalue-function">
-      The optimal value and action-value function
-    </h3>
-
-  <p>
-    The optimal value function is the maximum value that can be obtained from the state s given under the policy, which enables the agent to choose such actions from that state onwards which maximizes the expected total discounted return from that state onwards.&nbsp;&nbsp;<br>
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/qi5qob3u.bmp" height="47" width="230" alt="" />
-      
-    </figure>
-
-  <p>
-    The optimal action-value function is the maximum action value obtained from state 's' by taking action 'a' under the policy that enables the agent to choose such actions from that state and action onwards, which maximizes the expected total discounted return from that state, action pair onwards.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/vx6llxf2.bmp" height="42" width="245" alt="" />
-      
-    </figure>
-
-  <p>
-    The optimal action-value function can be written in terms of the optimal value function as the expectation of the immediate reward plus the discounted optimal value of the next state given that the current state is 's' and the action taken from that state is action 'a'.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/j0fgnzcs.bmp" height="35" width="417" alt="" />
-      
-    </figure>
-
-  <p>
-    The recurrence relation of the optimal value function is the value of the maximum action 'a' that can be taken which is a summation of all the states and rewards in the sets S and R of the MDP, weighted by the transition probability of moving to those states obtaining those rewards multiplied by the immediate reward plus the discounted optimal value of the next state the agent would move to.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/04ht6hgr.bmp" height="208" width="447" alt="" />
-      
-    </figure>
-
-  <p>
-    The recurrence relation of the optimal action-value function is the sum of all states and rewards in S and R of the MDP, weighted by the transition probability multiplied by the immediate reward 'r' plus the discounted best action-value function of the next state the agent would move into by taking action " a' " from that state.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/cm2qfiht.bmp" height="109" width="523" alt="" />
-      
-    </figure>
-
-    <h2 id="grid-world-examplenbsp">
-      Grid world Example&nbsp;
-    </h2>
-
-  <p>
-    In this example, the RL agent has to traverse the following grid world, and any action that doesn't involve traversing from A to A' or B to B' gives a reward of -1. Otherwise, a reward of +10 and +5 is given if the agent gets teleported from A to A' or B to B'.
-<br>
-<br> 
-<br>The agent can only take one step in north, east, south, and west. 
-<br>
-<br>While the agent updates its value function by interacting and moving in this grid world environment, the value function over time would update as shown in the below table.
-<br>
-<br>It shows how much discounted total return each cell would give the agent over the long run.&nbsp;
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/16bzht3f.bmp" height="182" width="508" alt="" />
-      
-    </figure>
-
-  <p>
-    Once the agent finds the optimal policy that makes the agent optimize on getting the best possible discounted returns from this grid world, the value function would converge to the optimal value function. 
-<br>
-<br>
-<br>By acting greedily upon the optimal value function, we find the optimal policy function.
-<br>
-<br>If the agent chooses actions that get to better states (cells) with a higher value than the other states accessible from the current state the agent is in, the agent has successfully found the best policy to act optimally in this grid world in the below diagram.&nbsp;&nbsp;<br>
-  </p>
-
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/3/vx48ugrg.bmp" height="266" width="768" alt="" />
-      
-    </figure>
-
-  <p>
-    That brings us to the end of the basics of reinforcement learning part 1.
-<br>
-<br>This would be a 3 part series. In the second post, we will be going over Multi-armed bandits, an interesting problem in Reinforcement Learning. In the 3rd and final post, we will be going over finding the optimal value function solving the MDP using Dynamic Programming. 
-<br>
-<br>Stay tuned, and follow me on Twitter <a href="https://twitter.com/intent/user?screen_name=studentnlp"></a><a href="https://twitter.com/StudentNlp" target="_blank" class="" data-link-popup-id="1643213369871">@studentnlp</a>, so you don't miss any new posts. 
-<br>
-<br>Cheers!&nbsp;
-  </p>
-
-    <h2 id="referencesnbsp">
-      References&nbsp;
-    </h2>
-
-  <ul>
-    <li>Sutton, R.S. &amp; Barto, A.G., 2018. Reinforcement learning: An introduction, MIT press.</li><li><a href="https://www.youtube.com/playlist?list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ" target="_blank">David Silver "Introduction to Reinforcement Learning" DeepMind 2015&nbsp;</a><br></li>
-  </ul>
-
-  <p>
-    &nbsp;
-  </p>
-
-  <p>
-    &nbsp;&nbsp;
-  </p>
-
-  <p>
-    &nbsp;
-  </p>
-
-  <p>
-    &nbsp;
-  </p>
+                <p>Welcome! In this article, we will be going over the fundamentals of reinforcement learning. We will discuss what reinforcement learning is, how agents learn from rewards and experiences, what policies and value functions are, and how to model environments in a Markov decision process step-by-step.</p>
+<div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1fickllfsg7">What is Reinforcement Learning (RL)? </a>
+<ul>
+<li><a href="#mcetoc_1fickllfsg8">What is a reward? </a></li>
+<li><a href="#mcetoc_1fickllfsg9">The Reward Hypothesis </a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1fickllfsga">Components in Reinfocement learning</a>
+<ul>
+<li><a href="#mcetoc_1fickllfsgb">The Agent and the Enviroment  </a></li>
+<li><a href="#mcetoc_1fickllfsgc">What is the Markov State?</a></li>
+<li><a href="#mcetoc_1ficm0ep4ij">Returns, Epsoides and Continuous Tasks  </a></li>
+<li><a href="#mcetoc_1fie1hfh3oq">What are value functions and policies?  </a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1fickqocai8">The Markov Decision Process (MDP)</a>
+<ul>
+<li><a href="#mcetoc_1fickllfsgf">The Value Function </a></li>
+<li><a href="#mcetoc_1fickllfsgg">The Action-Value Function</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1fickllfsgk">Solving the MDP</a>
+<ul>
+<li><a href="#mcetoc_1fickqocaib">The optimal value and action-value function</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1fif6had5p3">Grid world Example </a></li>
+<li><a href="#mcetoc_1fie5fapjov">References </a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1fickllfsg7">What is Reinforcement Learning (RL)? </h2>
+<p>Reinforcement learning is a learning process in which agents learn through interacting with the environment and learn to take actions in a way that maximizes its reward signal. The reward signal is given by the environment depending on how well the agent performed in that environment. <br><br>Reinforcement learning is a computational approach that learns from interaction with an environment. The goal of a reinforcement learning agent is to maximize a numerical reward signal. </p>
+<h3 id="mcetoc_1fickllfsg8">What is a reward? </h3>
+<p>A reward is a simple number given to the agent by the environment each time the agent interacts with the environment. The agent's goal is to maximize then the total amount of reward it receives, which means that the agent needs to maximize the cumulative reward in the long term, not the immediate reward in the short term. </p>
+<h3 id="mcetoc_1fickllfsg9">The Reward Hypothesis </h3>
+<p>The reward hypothesis states that an RL agent's goal is to maximize the expected value of the received scalar signal's cumulative reward. <br><br>Therefore, reinforcement learning gets based on learning methods that maximize the total cumulative reward by taking actions that help reach this goal.</p>
+<h2 id="mcetoc_1fickllfsga">Components in Reinfocement learning</h2>
+<p>The two main components in any reinforcement learning-based algorithm are known as the agent and the environment.</p>
+<h3 id="mcetoc_1fickllfsgb">The Agent and the Enviroment  </h3>
+<p>An agent is a learner and the decision-maker inside an environment. The agent observes the environment and takes action, which is how the agent interacts with the environment. The environment then gives a reward to that agent based on the agent's action at that particular time and situation. <br><br>Everything that is outside of the agent is known as the environment.</p>
+<h3 id="mcetoc_1fickllfsgc">What is the Markov State?</h3>
+<p>In RL, understanding the concept of a state is vital. The state is the information that we use to determine what might happen next. Simply put, the state is a function of history. <br><br>The agent has its state, in which case the agent's state is the function of the agent's history and experiences collected by interacting with the environment.</p>
+<p>The environment also has its state, known as the environment state. <br><br>The agent's or the environment's state is a <strong>Markov state</strong> if the current state is independent of the past. This is because the past information (history) gets derived from the current state. Therefore the state doesn't depend on history. <br><br><strong>"The future is independent of the past given the present"</strong> - and future states can be computed from the current state, and the history can be discarded. </p>
+<p>Suppose the agent can access the environment state. In that case, the mathematical model of the RL problem is known as a fully observable Markov decision process, whereas if the agent cannot access the state of the environment, then it's known as a partially observable Markov decision process. </p>
+<h3 id="mcetoc_1ficm0ep4ij">Returns, Epsoides and Continuous Tasks  </h3>
+<p>The agent's goal is to maximize the total cumulative reward it receives from the environment over time. <br><br>To understand more about the return, we formalize it as follows. This is the basic form of the expected return, which is just the sum of all rewards gathered till the agent reaches the terminal state of the environment (last state of interaction with the environment) from some timestep t. Capital T denotes the final timestep.</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/returneq.PNG" alt="" width="375" height="61" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/returneq-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/returneq-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/returneq-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/returneq-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/returneq-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/returneq-2xl.PNG 1600w"></figure>
+<p>Depending on the environment, the agent can work in episodic tasks or continuing tasks.</p>
+<p><br>An episodic task ends at a specific terminal state S+ with different rewards for different outcomes. (All nonterminal states denoted as S.)</p>
+<p>E.g., winning and losing a game of chess, the next episode or next game begins independently of how the previous game ended) The terminal state ends, and the environment resets back into a starting state. </p>
+<p><br>Continous tasks don't have a terminal state. Therefore they go on without a limit. Here taking the total cumulative reward is tricky because the total cumulative reward will be T = ∞.  <br><br>Now we introduce a notation known as the discount factor, a value between 0 and 1. This is so that in continuous environments, the total cumulative reward would not be ∞. <br>If we set the discount factor closer to 0, the agent tends to try and optimize to get higher immediate rewards. On the other hand, if the discount factor is closer to 1, the agent looks ahead to long-term rewards.</p>
+<p>Therefore the agent now tries to select actions that maximize the sum of the discounted rewards (discounted return) it receives from timestep t onwards. So at each state, the agent tries to pick the best action at timestep t that maximizes the expected discounted return:</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/returnmodified.PNG" alt="" width="522" height="66" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/returnmodified-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/returnmodified-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/returnmodified-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/returnmodified-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/returnmodified-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/returnmodified-2xl.PNG 1600w"></figure>
+<p>In the following manner, the current expected discounted return at timestep t relates with the future discounted return at time step t+1. <br><br>Thus, the current expected discounted return is the immediate reward at timestep t plus the discounted expected return at time step t+1.</p>
+<figure class="post__image post__image--center"><img loading="lazy"  style="outline: 3px solid rgba(var(--primary-color-rgb), 0.55)  !important;" src="https://thenlpstudent.github.io/media/posts/2/returnwhole.PNG" alt="" width="408" height="100" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/returnwhole-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/returnwhole-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/returnwhole-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/returnwhole-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/returnwhole-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/returnwhole-2xl.PNG 1600w"></figure>
+<h3 id="mcetoc_1fie1hfh3oq">What are value functions and policies?  </h3>
+<p>Two other essential concepts in Reinforcement Learning are the value function and the policy function of an RL agent. <br><br>The value function of an RL agent describes how 'good' a state is in the long run.<br><br>It's a function that maps a state to a value that describes how much total expected discounted return the agent would get if the agent takes actions starting from that given state.<br><br>The policy is a function that maps a state with a given action. <br><br>Next, it describes how the behavior of the agent would be in the environment. Finally, it defines a way in which the agent would interact with the environment.<br>The policy function can either be discrete or stochastic, in the sense that it can map to certain actions based on an argmax function, where it picks the action that has the highest return (a greedy policy), or picks an action based on a probabilistic distribution.</p>
+<h2 id="mcetoc_1fickqocai8">The Markov Decision Process (MDP)</h2>
+<p>The Markov Decision Process is a classic formalization of sequential decision making, where actions influence the immediate reward at time step t and future states those actions and the rewards at those future states. <br><br>The MDP process formalizes and helps us derive equations on dealing with the trade-off between immediate and delayed rewards. </p>
+<p>There are two types of values that we estimate by using an MDP, so that we can better deal with the immediate and delayed reward trade-off. <br><br>We estimate the optimal value function that gives each state S's best possible value given optimal action selections. <br><br>We also estimate the optimal action-value function, which takes in as arguments the action and the state the agent is in and gives how good of an action that action is depending on the state. </p>
+<p>Estimating these state-dependent quantities is essential to accurately assign credit to the agent's actions in the environment to make decisions better to effectively trade-off between immediate and delayed rewards. <br><br>The agent would observe the current state at time step t and get the current reward from transitioning into that state. Then, the state would take action, which hopefully maximizes the discounted return for the next timestep. </p>
+<p>The environment would process this action if the environment would produce the next state and reward the agent for moving into the new state. </p>
+<p><br>This is how the agent and the environment interact with each other. The agent's goal is to behave optimally in this environment, which is done by maximizing the total discounted return over time. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/Group-5-2.png" alt="" width="556" height="241" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/Group-5-2-xs.png 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/Group-5-2-sm.png 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/Group-5-2-md.png 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/Group-5-2-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/Group-5-2-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/Group-5-2-2xl.png 1600w"></figure>
+<p>While interacting with the environment, this would be the sequential history the agent goes through.</p>
+<p>For example, the agent starts at timestep 0, observes the state, takes action, and obtains a reward, and this cycle repeats. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/bellman_1.PNG" alt="" width="433" height="49" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/bellman_1-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_1-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_1-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_1-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_1-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_1-2xl.PNG 1600w"></figure>
+<p>The MDP describes the probability in which the agent transitions from one state to the next.</p>
+<p>The likelihood that given the agent is in a given state 's' and takes action' a', the likelihood that that agent would end up in a new state " s' " and gets a reward 'r' is described as follows, </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/bellman_2.PNG" alt="" width="588" height="56" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/bellman_2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_2-2xl.PNG 1600w"></figure>
+<figure class="post__image post__image--center">The probability in taking action 'a' from state 's' and transitioning to state " s' " is the summation for all rewards in set R (all possible reward values in the MDP), and their transition probability of starting at state 's', taking action 'a', transitioning to state " s' " and getting probability 'r' for all rewards in set R.<br><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/bellman_5.PNG" alt="" width="710" height="103" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/bellman_5-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_5-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_5-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_5-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_5-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_5-2xl.PNG 1600w"></figure>
+<p>The expected reward for choosing action a from state s can be described as the summation of all rewards in R weighted over all the state transition probabilities from state 's', taking action 'a', landing in the state " s' " and getting a reward 'r' afterward. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/bellman_6.PNG" alt="" width="670" height="77" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/bellman_6-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_6-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_6-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_6-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_6-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_6-2xl.PNG 1600w"></figure>
+<p>The expected reward the agent will receive at the current state " s' " given that the previous state and action was 's' and 'a', is the summation of all rewards R, weighted by the total probability of transitioning from state 's' to " s' " by taking action 'a' over the probability of transitioning from state 's' to " s' " by taking action 'a' and getting a specific reward 'r' in R.  </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/bellman_7.PNG" alt="" width="737" height="78" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/bellman_7-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_7-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_7-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_7-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_7-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellman_7-2xl.PNG 1600w"></figure>
+<p>Here it shows that the probability of transitioning from all states " s' " and getting all rewards 'r' from those states given that the agent was in state 's' and takes action 'a' sums to 1. This shows that the function 'p' specifies a probability distribution for each choice of state 's' and action 'a'. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  style="font-size: 18.4px; outline: 3px solid rgba(var(--primary-color-rgb), 0.55)  !important;" src="https://thenlpstudent.github.io/media/posts/2/bellamn_3.PNG" alt="" width="521" height="81" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/bellamn_3-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellamn_3-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellamn_3-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellamn_3-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellamn_3-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/bellamn_3-2xl.PNG 1600w"></figure>
+<h3 id="mcetoc_1fickllfsgf">The Value Function </h3>
+<p><span data-preserver-spaces="true">The value function defines how good it is to be in a particular state. </span></p>
+<p><span data-preserver-spaces="true">This means it gives the total expected discounted reward that is possible to receive, given that the agent continues to take actions from that state onward. </span></p>
+<p><span data-preserver-spaces="true">The value function depends upon the state, and the policy the agent follows since the selection of actions from state 's' onwards depends on the agent's policy or behavior. </span></p>
+<p><span data-preserver-spaces="true">The below equation shows that the value function when the agent uses a given policy </span><strong><span data-preserver-spaces="true">π </span></strong><span data-preserver-spaces="true">and starts at state s, is equivalent by the MDP to the expectation of the total discounted return from timestep t onwards, given that the agent currently at timestep t is on the state 's'.</span></p>
+<p><span data-preserver-spaces="true">Afterward, we can expand the definition of the total discounted return and show that this is true for all states in the MDP. </span></p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/v_policy_s.PNG" alt="" width="613" height="68" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s-2xl.PNG 1600w"></figure>
+<p>We can also evaluate this expectation as follows by the recursive defintion of the total discounted return.</p>
+<p>Here it shows that the value function is the summation of all actions that can be made by the agent, and the probability the agent will choose that action  is weighted by the sum the transitioning probabiltieis of all states and rewards from state 's' by taking action 'a' multiplied by the immediate reward of the given transitioning probabilities plus the discounted value of the value function under policy <strong>π </strong>for the next state " s' ".</p>
+<p> </p>
+<figure class="post__image post__image--center"><img loading="lazy"  style="font-size: 18.4px; outline: 3px solid rgba(var(--primary-color-rgb), 0.55)  !important;" src="https://thenlpstudent.github.io/media/posts/2/v_policy_s_s.PNG" alt="" width="567" height="173" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s_s-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s_s-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s_s-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s_s-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s_s-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/v_policy_s_s-2xl.PNG 1600w"></figure>
+<div> </div>
+<h3 id="mcetoc_1fickllfsgg">The Action-Value Function</h3>
+<p>The action-value function maps a state and an action to show how much expected total discounted return the agent will receive from the environment if the agent starts at state 's' and takes action 'a' from that time until the environment terminates. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/q_policy_s_a.PNG" alt="" width="630" height="87" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/q_policy_s_a-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_policy_s_a-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_policy_s_a-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_policy_s_a-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_policy_s_a-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_policy_s_a-2xl.PNG 1600w"></figure>
+<h2 id="mcetoc_1fickllfsgk">Solving the MDP</h2>
+<p>Solving the MDP entails that we find the optimal value function or the optimal action-value function, which can be derived from the optimal value function in the MDP and allowing the agent to pick the best action that gives the highest possible action-value for the state that the agent is currently at timestep t. </p>
+<h3 id="mcetoc_1fickqocaib">The optimal value and action-value function</h3>
+<p>The optimal value function is the maximum value that can be obtained from the state s given under the policy, which enables the agent to choose such actions from that state onwards which maximizes the expected total discounted return from that state onwards. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/optimal_val_policy.PNG" alt="" width="230" height="47" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/optimal_val_policy-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/optimal_val_policy-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/optimal_val_policy-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/optimal_val_policy-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/optimal_val_policy-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/optimal_val_policy-2xl.PNG 1600w"></figure>
+<p>The optimal action-value function is the maximum action value obtained from state 's' by taking action 'a' under the policy that enables the agent to choose such actions from that state and action onwards, which maximizes the expected total discounted return from that state, action pair onwards. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/optimal_q_value.PNG" alt="" width="245" height="42" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/optimal_q_value-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/optimal_q_value-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/optimal_q_value-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/optimal_q_value-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/optimal_q_value-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/optimal_q_value-2xl.PNG 1600w"></figure>
+<p>The optimal action-value function can be written in terms of the optimal value function as the expectation of the immediate reward plus the discounted optimal value of the next state given that the current state is 's' and the action taken from that state is action 'a'. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/q_optimal_s_a_expe-2.PNG" alt="" width="417" height="35" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_s_a_expe-2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_s_a_expe-2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_s_a_expe-2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_s_a_expe-2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_s_a_expe-2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_s_a_expe-2-2xl.PNG 1600w"></figure>
+<p>The recurrence relation of the optimal value function is the value of the maximum action 'a' that can be taken which is a summation of all the states and rewards in the sets S and R of the MDP, weighted by the transition probability of moving to those states obtaining those rewards multiplied by the immediate reward plus the discounted optimal value of the next state the agent would move to. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/big_equ.PNG" alt="" width="447" height="208" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/big_equ-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/big_equ-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/big_equ-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/big_equ-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/big_equ-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/big_equ-2xl.PNG 1600w"></figure>
+<p>The recurrence relation of the optimal action-value function is the sum of all states and rewards in S and R of the MDP, weighted by the transition probability multiplied by the immediate reward 'r' plus the discounted best action-value function of the next state the agent would move into by taking action " a' " from that state. </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/2/q_optimal_stup.PNG" alt="" width="523" height="109" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_stup-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_stup-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_stup-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_stup-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_stup-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/q_optimal_stup-2xl.PNG 1600w"></figure>
+<h2 id="mcetoc_1fif6had5p3">Grid world Example </h2>
+<p>In this example, the RL agent has to traverse the following grid world, and any action that doesn't involve traversing from A to A' or B to B' gives a reward of -1. Otherwise, a reward of +10 and +5 is given if the agent gets teleported from A to A' or B to B'.</p>
+<p> <br>The agent can only take one step in north, east, south, and west. </p>
+<p>While the agent updates its value function by interacting and moving in this grid world environment, the value function over time would update as shown in the below table.</p>
+<p>It shows how much discounted total return each cell would give the agent over the long run. </p>
+<figure class="post__image post__image--center" ><img loading="lazy" src="https://thenlpstudent.github.io/media/posts/2/policyexample.PNG" alt="Reinforcement Learning: 2nd Edition (Finite Markov Decision Processes)" width="508" height="182" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/policyexample-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/policyexample-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/policyexample-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/policyexample-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/policyexample-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/policyexample-2xl.PNG 1600w">
+<figcaption >Reinforcement Learning: 2nd Edition (Finite Markov Decision Processes)</figcaption>
+</figure>
+<p>Once the agent finds the optimal policy that makes the agent optimize on getting the best possible discounted returns from this grid world, the value function would converge to the optimal value function. </p>
+<p><br>By acting greedily upon the optimal value function, we find the optimal policy function.</p>
+<p>If the agent chooses actions that get to better states (cells) with a higher value than the other states accessible from the current state the agent is in, the agent has successfully found the best policy to act optimally in this grid world in the below diagram. </p>
+<figure class="post__image post__image--center" ><img loading="lazy" src="https://thenlpstudent.github.io/media/posts/2/gridworld2.PNG" alt="" width="779" height="270" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/2/responsive/gridworld2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/2/responsive/gridworld2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/2/responsive/gridworld2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/2/responsive/gridworld2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/2/responsive/gridworld2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/2/responsive/gridworld2-2xl.PNG 1600w">
+<figcaption >Reinforcement Learning: 2nd Edition (Finite Markov Decision Processes)</figcaption>
+</figure>
+<p><span data-preserver-spaces="true">That brings us to the end of the basics of reinforcement learning part 1.</span></p>
+<p><span data-preserver-spaces="true">This would be a 3 part series. In the second post, we will be going over Multi-armed bandits, an interesting problem in Reinforcement Learning. In the 3rd and final post, we will be going over finding the optimal value function solving the MDP using Dynamic Programming. </span></p>
+<p><span data-preserver-spaces="true">Stay tuned, and follow me on Twitter </span><a target="_blank" href="https://twitter.com/intent/user?screen_name=studentnlp" class="editor-rtfLink" rel="noopener"><span data-preserver-spaces="true">@studentnlp</span></a><span data-preserver-spaces="true">, so you don't miss any new posts. </span></p>
+<p><span data-preserver-spaces="true">Cheers! </span></p>
+<h2 id="mcetoc_1fie5fapjov">References </h2>
+<ul>
+<li><span class="ILfuVd"><span class="hgKElc">Sutton, R.S. &amp; Barto, A.G., 2018. Reinforcement learning: An introduction, MIT press.</span></span></li>
+<li><a href="https://www.youtube.com/playlist?list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ" target="_blank" rel="noopener noreferrer">David Silver "Introduction to Reinforcement Learning" DeepMind 2015</a> </li>
+</ul>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
             ]]>
         </content>
     </entry>
     <entry>
-        <title>The Transformer Explained </title>
+        <title>The Transformer Explained</title>
         <author>
             <name>The NLP Student</name>
         </author>
-        <link href="https://thenlpstudent.github.io/the-transformer-explained.html"/>
-        <id>https://thenlpstudent.github.io/the-transformer-explained.html</id>
+        <link href="https://thenlpstudent.github.io/transformers-and-attention.html"/>
+        <id>https://thenlpstudent.github.io/transformers-and-attention.html</id>
 
-        <updated>2022-01-26T21:24:59+05:30</updated>
+        <updated>2021-09-09T17:11:20+05:30</updated>
             <summary>
                 <![CDATA[
-                     Welcome! In this article, we will be going over what a Transformer is, the intuition and the inner workings behind the attention mechanism it employs to process sequential data, and how the Multi-Head Attention mechanism works as implemented by the paper 'Attention is all&hellip;
+                    Welcome! In this article, we will be going over what a Transformer is, the intuition and the inner workings behind the attention mechanism it employs to process sequential data, and how the Multi-Head Attention mechanism works as implemented by the paper 'Attention is all you&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
                 
   <p>
-    Welcome! In this article, we will be going over what a Transformer is, the intuition and the inner workings behind the attention mechanism it employs to process sequential data, and how the Multi-Head Attention mechanism works as implemented by the paper 'Attention is all you need' NeurIPS 2017.
+    Welcome! In this article, we will be going over what a <b>Transformer </b>is, the intuition and the inner workings behind the <b>attention mechanism</b> it employs to process sequential data, and how the <b>Multi-Head Attention mechanism</b> works as implemented by the paper '<b>Attention is all you need</b>' <b>NeurIPS 2017.&nbsp;</b>
+  </p>
+
+  <p>
+    
   </p>
 
   <div class="post__toc">
     <h3>Quick Links&nbsp;</h3>
     <ul>
-      <li><a href="#the-big-picturenbsp">The Big Picture&nbsp;</a></li><li><a href="#how-the-transformer-worksnbsp">How the transformer works&nbsp;</a><ul><li><a href="#step-1-word-and-positional-embeddingnbsp">Step 1: Word and Positional Embedding&nbsp;</a></li><li><a href="#step-2-encoding-sequences-using-attentionnbsp">Step 2: Encoding Sequences using Attention&nbsp;</a><ul><li><a href="#what-is-attentionnbsp">What is attention?&nbsp;</a></li><li><a href="#what-are-the-add-and-norm-layersnbsp">What are the 'add' and 'norm' layers?&nbsp;</a></li><li><a href="#the-feedforward-layersnbsp">The feed-forward layers&nbsp;</a></li></ul></li><li><a href="#step-3-decoding-the-input-sequencesnbsp">Step 3: Decoding the input sequences&nbsp;</a></li><li><a href="#step-4-training-and-inferencenbsp">Step 4: Training and Inference&nbsp;</a></li></ul></li><li><a href="#taking-a-deep-dive-into-attentionnbsp">Taking a deep dive into Attention&nbsp;</a><ul><li><a href="#maskingnbsp">Masking&nbsp;</a></li><li><a href="#attention-in-the-decoder-layersnbsp">Attention in the decoder layers&nbsp;</a></li></ul></li><li><a href="#multihead-attention-cause-ngt1-heads-are-better-than-one">Multi-Head Attention: cause n&gt;1 heads are better than one!</a></li><li><a href="#referencesnbsp">References&nbsp;</a></li>
+      <li><a href="#the-big-picture">The Big Picture</a></li><li><a href="#how-the-transformer-works">How the Transformer works</a><ul><li><a href="#step-1-word-and-positional-embeddingnbsp">Step 1: Word and Positional Embedding&nbsp;</a></li><li><a href="#step-2-encoding-sequences-using-attention">Step 2: Encoding Sequences using Attention</a><ul><li><a href="#what-is-attentionnbsp">What is attention?&nbsp;</a></li><li><a href="#what-is-the-add-and-norm-layernbsp">What is the 'add and norm' layer?&nbsp;</a></li><li><a href="#the-feedforward-layer">The feed-forward layer</a></li></ul></li><li><a href="#step-3-decoding-the-input-sequencesnbsp">Step 3: Decoding the input sequences&nbsp;</a></li><li><a href="#step-4-training-and-inferencenbsp">Step 4: Training and Inference&nbsp;</a></li></ul></li><li><a href="#understanding-attentionnbsp">Understanding Attention&nbsp;</a><ul><li><a href="#maskingnbsp">Masking&nbsp;</a></li><li><a href="#attention-in-the-decoder-layersnbsp">Attention in the decoder layers&nbsp;</a></li></ul></li><li><a href="#multihead-attention-cause-ngt1-heads-are-better-than-onenbsp">Multi-Head Attention: cause n&gt;1 heads are better than one!&nbsp;</a></li><li><a href="#referencesnbsp">References&nbsp;</a></li>
     </ul>
   </div>
   
 
   <p>
-    &nbsp;A transformer is a deep learning architecture that performs well for sequential data-related Machine learning tasks. It is based around an encoder-decoder architecture to handle and process sequential data in parallel. In addition, it uses a mechanism known as Attention to look back and forwards the sequential input and identify long-range patterns and relationships between each component in the sequence.
-<br>
-<br>The transformer architecture solves the shortcomings of recurrent neural networks and convolutional neural networks when processing sequential data and making good predictions. 
-<br>
-<br>Recurrent neural networks aren't capable of processing sequential data in parallel. Therefore it increases training time since we can't utilize the full power of GPU processing units for parallel matrix multiplication if data is processed sequentially.
-<br>
-<br>Convolutional neural networks can also process sequential data in parallel. But due to their window size, they can only look back and forward the input sequence, making them unable to identify good long-distance relationships between the entire sequence. 
-<br>
-<br>The attention mechanism can look at the whole input sequence at once and identify the long-distance relationships of every element (i.e. word) in the sequence with every other element of the sequence, which is why transformers, in general, perform better when it comes to sequential data processing.
+    A <b>transformer </b>is a deep learning architecture that performs well for sequential data-related Machine learning tasks. It is based around an encoder-decoder architecture to handle and process sequential data in parallel. In addition, it uses a mechanism known as Attention to look back and forwards the sequential input and identify long-range patterns and relationships between each component in the sequence. <br><br>The transformer architecture solves the shortcomings of recurrent neural networks and convolutional neural networks when processing sequential data and making good predictions.&nbsp;
   </p>
 
-    <h2 id="the-big-picturenbsp">
-      The Big Picture&nbsp;
+  <p>
+    Recurrent neural networks aren't capable of processing sequential data in parallel. Therefore it increases training time since we can't utilize the full power of GPU processing units for parallel matrix multiplication if data is processed sequentially. <br><br>Convolutional neural networks can also process sequential data in parallel. But due to their window size, they can only look back and forward the input sequence, making them unable to identify good long-distance relationships between the entire sequence.&nbsp;
+  </p>
+
+  <p>
+    The attention mechanism can look at the whole input sequence at once and identify the long-distance relationships of every element (i.e. word) in the sequence with every other element of the sequence, which is why transformers, in general, perform better when it comes to sequential data processing.&nbsp;
+  </p>
+
+    <h2 id="the-big-picture">
+      The Big Picture
     </h2>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/transformer-outline.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/transformer-outline-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/transformer-outline-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/transformer-outline-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/transformer-outline-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/transformer-outline-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/transformer-outline-2xl.png 1600w"  height="669" width="768" alt="" />
-      <figcaption>High level overview of the transformer architecture and it's key components</figcaption>
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/transformers.png" height="713" width="818" alt="Transformer architecture, bird's eye view diagram"  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/transformers-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/transformers-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/transformers-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/transformers-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/transformers-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/transformers-2xl.png 1600w">
+      <figcaption>High level overview of the transformer architecture and it's key components </figcaption>
     </figure>
 
   <p>
-    &nbsp;
+    <br>In a nutshell, the transformer uses an encoder-decoder architecture, where N (N=5 in the&nbsp; different encoding layers encode the input sequences, and N different decoder layers decode the information encoded by the encoding layers to predict the next word in sequence, depending on the NLP task at hand.&nbsp;&nbsp;
   </p>
 
   <p>
-    In a nutshell, the transformer uses an encoder-decoder architecture, where N (N=5 in the  different encoding layers encode the input sequences, and N different decoder layers decode the information encoded by the encoding layers to predict the next word in sequence, depending on the NLP task at hand.  
-<br>
-<br>Before sending the input sequences into the encoder layers or to the decoder layers of the transformer, word embeddings and positional embeddings preprocess the input sequences so that the transformer can process the data more intuitively and effectively. 
-<br>
-<br> We will discuss the concept of word embedding and positional embedding once we dive more deeply into the inner workings of the transformer.
-<br>
-<br>These encoder layers are stacked on top of each other. The last encoder layer creates an encoded embedding matrix that contains a representation of the learned sequence.
-<br>
-<br>Finally, the decoder layer utilizes this matrix for a certain natural language processing task such as text classification, text generation, or machine translation. 
-<br>
-<br>The original paper (Attention is all you need) utilized the transformer to convert English input sentences to German and French, proving that transformers are good at machine translation tasks. 
-<br>
-<br>So let's dive deep into the inner workings of the transformers' encoder and decoder layers, how Attention works, and how supervised learning can train the transformer to optimize to perform better at machine translation and similar text processing tasks.
+    Before sending the input sequences into the encoder layers or to the decoder layers of the transformer, word embeddings and positional embeddings preprocess the input sequences so that the transformer can process the data more intuitively and effectively.&nbsp;
   </p>
 
-    <h2 id="how-the-transformer-worksnbsp">
-      How the transformer works&nbsp;
+  <p>
+    &nbsp;We will discuss the concept of word embedding and positional embedding once we dive more deeply into the inner workings of the transformer. 
+  </p>
+
+  <p>
+    These encoder layers are stacked on top of each other. The last encoder layer creates an encoded embedding matrix that contains a representation of the learned sequence.
+  </p>
+
+  <p>
+    Finally, the decoder layer utilizes this matrix for a certain natural language processing task such as text classification, text generation, or machine translation.&nbsp;
+  </p>
+
+  <p>
+    The original paper (Attention is all you need) utilized the transformer to convert English input sentences to German and French, proving that transformers are good at machine translation tasks.&nbsp;
+  </p>
+
+  <p>
+    So let's dive deep into the inner workings of the transformers' encoder and decoder layers, how Attention works, and how supervised learning can train the transformer to optimize to perform better at machine translation and similar text processing tasks.&nbsp;
+  </p>
+
+    <h2 id="how-the-transformer-works">
+      How the Transformer works
     </h2>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/1-do7YDFF2sads0p9BnjzrWA-2-md.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-md-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-md-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-md-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-md-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-md-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-md-2xl.png 1600w"  height="671" width="500" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/1-do7YDFF2sads0p9BnjzrWA-2.png" height="671" width="500" alt="Detailed diagram of the transformer"  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-do7YDFF2sads0p9BnjzrWA-2-2xl.png 1600w">
       <figcaption>Detailed diagram of the transformer, from the paper 'Attention is all you need' NIPS 2017</figcaption>
     </figure>
 
   <p>
-    The paper that started it all by introducing the transformer at NIPS 2017 was called 'Attention is all you need', where Ashish Vaswani et al. proposed a deep learning model capable of processing sequences utilizing only Attention. Earlier variants of using Attention with sequence data involved connecting an attention layer to a recurrent neural network like a Long Short Term Memory (LSTM) network or a (Gated recurrent unit) GRU network. 
-<br>
-<br>However, transformers proved that relying solely on the attention mechanism yielded better results, especially in the NLP problem area of language translation. 
-<br>
-<br>Let's look at how the transformer processes information in a step by step manner and learns to make better predictions overtime.
+    The paper that started it all by introducing the transformer at NIPS 2017 was called 'Attention is all you need', where Ashish Vaswani et al. proposed a deep learning model capable of processing sequences utilizing only Attention. Earlier variants of using Attention with sequence data involved connecting an attention layer to a recurrent neural network like a Long Short Term Memory (LSTM) network or a (Gated recurrent unit) GRU network.&nbsp;
+  </p>
+
+  <p>
+    However, transformers proved that relying solely on the attention mechanism yielded better results, especially in the NLP problem area of language translation.&nbsp;
+  </p>
+
+  <p>
+    Let's look at how the transformer processes information in a step by step manner and learns to make better predictions overtime.&nbsp;
   </p>
 
     <h3 id="step-1-word-and-positional-embeddingnbsp">
@@ -1011,41 +379,53 @@ print(fibBottomUp(5000)) # it works :)
     </h3>
 
   <p>
-    The first step involves creating embeddings for the input sequences by word and positional embedding. 
-<br>
-<br>Deep learning models can't process words the way humans do. They deal with vectors and matrices to make predictions. Therefore we must first convert words in the sequence into word vectors, representing a word in the vocabulary. 
-<br>
-<br>Before the input sequences enter the encoders, the inputs are preprocessed and converted to word vectors, representing a word's contextual meaning in numeric form, so transformers can carry out numerical calculations to make predictions. 
-<br>
-<br>When training a transformer, we have a set of vocabulary that we would like the transformer to learn. A vocabulary is a set of distinct words that you want the transformer to learn to do the NLP problem at hand effectively.&nbsp;
+    The first step involves creating embeddings for the input sequences by word and positional embedding.&nbsp;
+  </p>
+
+  <p>
+    Deep learning models can't process words the way humans do. They deal with vectors and matrices to make predictions. Therefore we must first convert words in the sequence into word vectors, representing a word in the vocabulary.&nbsp;
+  </p>
+
+  <p>
+    Before the input sequences enter the encoders, the inputs are preprocessed and converted to word vectors, representing a word's contextual meaning in numeric form, so transformers can carry out numerical calculations to make predictions.&nbsp;
+  </p>
+
+  <p>
+    When training a transformer, we have a set of vocabulary that we would like the transformer to learn. A vocabulary is a set of distinct words that you want the transformer to learn to do the NLP problem at hand effectively.&nbsp;
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/1-4UHP_q1_FdqMr1T5yvXEKg-md.jpeg" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-md-xs.jpeg 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-md-sm.jpeg 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-md-md.jpeg 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-md-lg.jpeg 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-md-xl.jpeg 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-md-2xl.jpeg 1600w"  height="650" width="485" alt="" />
-      <figcaption>A vocabulary list with distinct words with their corresponding indices</figcaption>
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/1-4UHP_q1_FdqMr1T5yvXEKg.jpeg" height="650" width="485" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-xs.jpeg 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-sm.jpeg 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-md.jpeg 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-lg.jpeg 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-xl.jpeg 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/1-4UHP_q1_FdqMr1T5yvXEKg-2xl.jpeg 1600w">
+      <figcaption>A vocabulary list with distinct words with their corresponding indices </figcaption>
     </figure>
 
   <p>
-    These word embeddings convert a given word to a word vector, which is a vector with a dimension of 'dᵐᵒᵈᵉˡ', which is a constant, or referred to as a hyperparameter of the network. The original paper had word vectors with the size of 512, which meant that to represent one word, the transformer converted each word into 512 numbers and stored them in vectors. 
-<br>
-<br>Word vectors can also be projected onto a 2-D plane, by shrinking their dimensionality from N dimensions to 2 dimensions. Once projected, the words that have similar context are grouped near each other.
+    These word embeddings convert a given word to a word vector, which is a vector with a dimension of 'dᵐᵒᵈᵉˡ', which is a constant, or referred to as a hyperparameter of the network. The original paper had word vectors with the size of 512, which meant that to represent one word, the transformer converted each word into 512 numbers and stored them in vectors.&nbsp;
+  </p>
+
+  <p>
+    Word vectors can also be projected onto a 2-D plane, by shrinking their dimensionality from N dimensions to 2 dimensions. Once projected, the words that have similar context are grouped near each other.
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/3225.1569667846-md.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-md-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-md-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-md-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-md-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-md-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-md-2xl.png 1600w"  height="456" width="768" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/3225.1569667846.png" height="922" width="1552" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/3225.1569667846-2xl.png 1600w">
       <figcaption>Word vectors projected onto a 2-D plane, words that share similar context are close by to each other</figcaption>
     </figure>
 
   <p>
-    Therefore to process the input sequence, we get the input word tokens from the sequence. We map each word to the location of the word in the vocabulary, assuming that the word is in the vocabulary. 
-<br>
-<br>For example, the word index in the vocabulary could be 21; 21 is the word ID. So for every word in the sequence, we map it to its word ID. 
-<br>
-<br>The below diagram shows multiple sentences with words being represented as a 2 dimensional matrix.
+    Therefore to process the input sequence, we get the input word tokens from the sequence. We map each word to the location of the word in the vocabulary, assuming that the word is in the vocabulary.&nbsp;
   </p>
 
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Capture-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Capture-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-md-2xl.PNG 1600w"  height="293" width="768" alt="" />
+  <p>
+    For example, the word index in the vocabulary could be 21; 21 is the word ID. So for every word in the sequence, we map it to its word ID.&nbsp;
+  </p>
+
+  <p>
+    The below diagram shows multiple sentences with words being represented as a 2 dimensional matrix.&nbsp;
+  </p>
+
+    <figure class="post__image post__image--wide">
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Capture.PNG" height="354" width="929" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Capture-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-2xl.PNG 1600w">
       <figcaption>Think of the sample size (row) as a sentence, and Sequence Length as the number of words in each sentence, a cell is a word</figcaption>
     </figure>
 
@@ -1053,52 +433,60 @@ print(fibBottomUp(5000)) # it works :)
     So our word tokens in the input sequences to the transformers are converted into word vectors, so the transformer knows the word's context when it processes it.
   </p>
 
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Capture2-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-md-2xl.PNG 1600w"  height="240" width="768" alt="" />
+    <figure class="post__image post__image--wide">
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Capture2.PNG" height="423" width="1351" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture2-2xl.PNG 1600w">
       
     </figure>
 
   <p>
     Once the word embeddings are created in this manner, positional encoding is also done to the input word tokens in the sequences before the sequences are sent off to the encoder layers.
-<br>
-<br>Positional encoding tells the transformer what position the word vectors are in relative to each other in the sequence. Since sequences are processed in parallel, the transformer doesn't know beforehand what order the word vectors come in. In the perspective of a transformer, all words are in a similar position which is untrue. Therefore positional encoding encodes the word's relative position information into the representation before being processed by the encoder and decoder layers. 
-<br>
-<br>Positional encoding is done using a sine and cosine function, and computed independtly of the word embeddings.&nbsp;
+  </p>
+
+  <p>
+    Positional encoding tells the transformer what position the word vectors are in relative to each other in the sequence. Since sequences are processed in parallel, the transformer doesn't know beforehand what order the word vectors come in. In the perspective of a transformer, all words are in a similar position which is untrue. Therefore positional encoding encodes the word's relative position information into the representation before being processed by the encoder and decoder layers.&nbsp;<br>
+  </p>
+
+  <p>
+    Positional encoding is done using a sine and cosine function, and computed independtly of the word embeddings.&nbsp;
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Capture3-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-md-2xl.PNG 1600w"  height="144" width="518" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Capture3.PNG" height="144" width="518" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture3-2xl.PNG 1600w">
       
     </figure>
 
   <ul>
-    <li><b>pos</b>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : Position of the word in the sequence (or sentence)</li><li><b>d_model</b>&nbsp; : Length of the word vector, also known as the embedding size &nbsp;</li><li><b>i&nbsp; &nbsp; </b>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :  Index value of the word vector&nbsp;&nbsp;<br></li>
+    <li><b style="font-style: italic;">pos&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : </b>Position of the word in the sequence (or sentence)&nbsp;</li><li><b style="font-style: italic;">d_model : </b>Length of the word vector, also known as the embedding size&nbsp;</li><li><b style="font-style: italic;">i&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :&nbsp; </b>Index value of the word vector<b style="font-style: italic;">&nbsp;&nbsp;</b></li>
   </ul>
 
-    <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/capture4-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/capture4-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture4-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture4-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture4-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture4-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture4-md-2xl.PNG 1600w"  height="578" width="768" alt="" />
+  <p>
+    The sine function is applied to even indexes of <b style="font-style: italic;">i </b>of the word vector, whereas the cosine function is applied to all odd indexes of the word vector.&nbsp;
+  </p>
+
+  <p>
+    This diagram shows the big picture of word and position embedding done in the transformer<br>
+  </p>
+
+    <figure class="post__image post__image--wide">
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/capture4.PNG" height="814" width="1082" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/capture4-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture4-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture4-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture4-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture4-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture4-2xl.PNG 1600w">
       
     </figure>
 
-    <h3 id="step-2-encoding-sequences-using-attentionnbsp">
-      Step 2: Encoding Sequences using Attention&nbsp;
+    <h3 id="step-2-encoding-sequences-using-attention">
+      Step 2: Encoding Sequences using Attention
     </h3>
 
   <p>
-    he N encoder layers encode the word vector sequences. Depending on the implementation the number of encoder/decoder layers can vary, the proposed transformer architecture in the paper has N = 6 encoder and decoder layers, stacked on top of one another.
+    The N encoder layers encode the word vector sequences. Depending on the implementation the number of encoder/decoder layers can vary, the proposed transformer architecture in the paper has N = 6 encoder and decoder layers, stacked on top of one another.&nbsp;
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Group-11-2-md.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-md-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-md-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-md-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-md-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-md-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-md-2xl.png 1600w"  height="640" width="405" alt="" />
-      
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Group-11-2.png" height="640" width="405" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-11-2-2xl.png 1600w">
+      <figcaption>Components inside an encoder layer of a transformer</figcaption>
     </figure>
 
-  <p>
-    &nbsp;
-  </p>
-
   <ol>
-    <li>The input to the layer gets processed by an attention layer.</li><li>An operation known as the 'Add &amp; Norm' is done afterward, then the output is passed down to a feed-forward network.</li><li>Another 'Add &amp; Norm' operation is done to the output and sent onto the next encoder layer.</li><li>The next encoder layer carries out the same operations, and the output is passed onto the next encoder on top of that afterward.&nbsp;</li><li>The decoder layers utilize the output of the last encoder layer to generate the final output. &nbsp;</li>
+    <li>The input to the layer gets processed by an attention layer.&nbsp;</li><li>An operation known as the 'Add &amp; Norm' is done afterward, then the output is passed down to a feed-forward network.<br></li><li>Another 'Add &amp; Norm' operation is done to the output and sent onto the next encoder layer.<br></li><li>The next encoder layer carries out the same operations, and the output is passed onto the next encoder on top of that afterward.&nbsp;<br></li><li>The decoder layers utilize the output of the last encoder layer to generate the final output.&nbsp;<br></li>
   </ol>
 
     <h4 id="what-is-attentionnbsp">
@@ -1106,51 +494,49 @@ print(fibBottomUp(5000)) # it works :)
     </h4>
 
   <p>
-    Before moving forward, it is essential to understand intuitively what the attention layer does in the encoder layer.
-<br>
-<br>The attention layer tries to create a matrix that gives a score on how much each word relates to every other word in that sequence.
-<br>
-<br>The following visual depicts what the attention layer tries to do to the input sequences.
+    Before moving forward, it is essential to understand intuitively what the attention layer does in the encoder layer. <br><br>The attention layer tries to create a matrix that gives a <b>score on how much each word relates to every other word in that sequence. </b><br><br>The following visual depicts what the attention layer tries to do to the input sequences.&nbsp;
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/capture5-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/capture5-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture5-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture5-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture5-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture5-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture5-md-2xl.PNG 1600w"  height="537" width="688" alt="" />
-      <figcaption>Softmax scores of an attention weight matrix</figcaption>
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/capture5.PNG" height="537" width="688" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/capture5-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture5-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture5-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture5-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture5-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/capture5-2xl.PNG 1600w">
+      <figcaption>Softmax scores of an attention weight matrix </figcaption>
     </figure>
 
   <p>
-    The following visual depicts what the attention layer tries to do to the input sequences. The attention layer lets the transformer model know where to focus on each word and its relation to other words. These long-range patterns are vital for various natural language processing tasks. Attention allows the transformer to look at the data at once and identify patterns effectively, which is why transformers perform better than RNNs.
+    The following visual depicts what the attention layer tries to do to the input sequences. The attention layer lets the transformer model know where to focus on each word and its relation to other words. These long-range patterns are vital for various natural language processing tasks. Attention allows the transformer to look at the data at once and identify patterns effectively, which is why transformers perform better than RNNs. &nbsp;
   </p>
 
-    <h4 id="what-are-the-add-and-norm-layersnbsp">
-      What are the 'add' and 'norm' layers?&nbsp;
+    <h4 id="what-is-the-add-and-norm-layernbsp">
+      What is the 'add and norm' layer?&nbsp;
     </h4>
 
   <p>
-    The add and norm layer takes the output generated by the attention layer and the input for the attention layer, adds them together, and passes them as input to the Layer normalization function. 
-<br>
-<br><b>"Layer Normalization directly estimates the normalization statistics from the summed inputs to the neurons within a hidden layer so the normalization does not introduce any new dependencies between training cases."
-</b><br>
-<br>Here's the equation for the layer normalization function, where we first calculate the mean of the vector and using the mean, you calculate \row, which becomes the new input to the feed-forward layer.&nbsp;
+    The add and norm layer takes the output generated by the attention layer and the input for the attention layer, adds them together, and passes them as input to the  Layer normalization function.&nbsp;
+  </p>
+
+  <p>
+    "<b>Layer Normalization directly estimates the normalization statistics from the summed inputs to the neurons within a hidden layer so the normalization does not introduce any new dependencies between training cases.</b>"
+  </p>
+
+  <p>
+    Here's the equation for the layer normalization function, where we first calculate the mean of the vector and using the mean, you calculate \row, which becomes the new input to the feed-forward layer.&nbsp;
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Capture6-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-md-2xl.PNG 1600w"  height="157" width="252" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Capture6.PNG" height="157" width="252" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture6-2xl.PNG 1600w">
       
     </figure>
 
-  <p>
-    &nbsp;&nbsp;
-  </p>
-
-    <h4 id="the-feedforward-layersnbsp">
-      The feed-forward layers&nbsp;
+    <h4 id="the-feedforward-layer">
+      The feed-forward layer
     </h4>
 
   <p>
-    The feed-forward layer in the encoder layer is a point-wise feed-forward network, a fully connected feed-forward network consisting of two linear transformations W1, B1, and W2, B2 with a ReLU activation function in between. 
-<br>
-<br>The inputs for the feed-forward layer are d_model which is the embedding size, and the inner layer has a dimensionality of d_ff. The dimensions of the d_model and d_ff in the proposed architecture are 512, and 2048 respectively.&nbsp;
+    The feed-forward layer in the encoder layer is a point-wise feed-forward network, a fully connected feed-forward network <b>consisting of two linear transformations W1, B1, and W2, B2 </b>with a <b>ReLU </b>activation function in between.&nbsp;
+  </p>
+
+  <p>
+    The inputs for the feed-forward layer are d_model which is the embedding size, and the inner layer has a dimensionality of d_ff. The dimensions of the d_model and d_ff in the proposed architecture are 512, and 2048 respectively.&nbsp;
   </p>
 
     <h3 id="step-3-decoding-the-input-sequencesnbsp">
@@ -1162,24 +548,36 @@ print(fibBottomUp(5000)) # it works :)
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Group-2-md.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-md-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-md-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-md-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-md-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-md-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-md-2xl.png 1600w"  height="680" width="600" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Group-2.png" height="680" width="600" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-2-2xl.png 1600w">
       
     </figure>
 
   <p>
     Like in the encoder layers, we embed the text input to the decoder layers, calculate their word vectors, and add positional encoding to it. We first input a 'START' token to the decoder layer to predict the next word in the sequence at the very end of the decoder layer.
-<br>
-<br>The next word predicted by the decoder layers is ignored during training, only used for the loss calculation and backpropagation of the loss to optimize the weights of the transformer.
-<br>
-<br>However, during inference, we append the predicted word as the next word token to our decoder layer and append it to the sequence to predict the next word at time step t+1. 
-<br>
-<br>Each decoder layer has two attention layers; one is responsible for finding the connections of the output sequence's words with words that come before it, not after it. 
-<br>
-<br>Then we send the output scores through an 'add &amp; norm' layer, implemented in the same manner as the encoder layers. 
-<br>
-<br>The next attention layer finds how relevant the words are in the output sequence compared with the input sequence from the encoder layer output.
-<br>
-<br>The information from the second attention layer passes along onto another 'add and norm' layer, afterward a point-wise feed-forward layer, and finally through another 'add and norm' layer, and onto the next decoder layer above it.
+  </p>
+
+  <p>
+    The next word predicted by the decoder layers is ignored during training, only used for the loss calculation and backpropagation of the loss to optimize the weights of the transformer.
+  </p>
+
+  <p>
+    However, during inference, we append the predicted word as the next word token to our decoder layer and append it to the sequence to predict the next word at time step t+1.&nbsp;
+  </p>
+
+  <p>
+    Each decoder layer has two attention layers; one is responsible for finding the connections of the output sequence's words with words that come before it, not after it.&nbsp;
+  </p>
+
+  <p>
+    Then we send the output scores through an 'add &amp; norm' layer, implemented in the same manner as the encoder layers.&nbsp;
+  </p>
+
+  <p>
+    The next attention layer finds how relevant the words are in the output sequence compared with the input sequence from the encoder layer output.
+  </p>
+
+  <p>
+    The information from the second attention layer passes along onto another 'add and norm' layer, afterward a point-wise feed-forward layer, and finally through another 'add and norm' layer, and onto the next decoder layer above it.&nbsp;
   </p>
 
     <h3 id="step-4-training-and-inferencenbsp">
@@ -1188,53 +586,67 @@ print(fibBottomUp(5000)) # it works :)
 
   <p>
     The final decoder layer has a linear layer, a single linear operation applied onto the output of the last decoder layer, and maps the output of the decoder layer into a vector with the dimensions of the vocabulary size. (E.g. 10000)
-<br>
-<br><b>A SoftMax function converts the values of that output vector into a probability distribution,</b> and the <b>index with the highest probability is chosen as the network's final output.
-</b><br>
-<br>This <b>chosen index position is mapped into the corresponding word by looking up the index from the vocabulary. 
-</b><br>
-<br>In the training phase of the network, we calculate the next word and calculate the loss of the probability distribution of the SoftMax function with the target distribution. This loss is backpropagated across the network, and the weights of every decoder and encoder block are updated.
-<br>
-<br><b>In the training phase, we use a method known as 'teacher forcing' where we manually input and append the correct word to the decoder layer's input sequence at each timestep to predict the next word.
-</b><br>
-<br><b>During inference, the predicted next word is appended to the current input sequence of the decoder, and until a 'END' token is generated, the next word is predicted and appended to the sequence.</b>
   </p>
 
-    <h2 id="taking-a-deep-dive-into-attentionnbsp">
-      Taking a deep dive into Attention&nbsp;
+  <p>
+    <b>A SoftMax function converts the values of that output vector into a probability distribution</b>, and the<b> index with the highest probability is chosen as the network's final output.</b>
+  </p>
+
+  <p>
+    This <b>chosen index position is mapped into the corresponding word by looking up the index from the vocabulary.&nbsp;</b>
+  </p>
+
+  <p>
+    In the training phase of the network, we calculate the next word and calculate the loss of the probability distribution of the SoftMax function with the target distribution. This loss is backpropagated across the network, and the weights of every decoder and encoder block are updated. 
+  </p>
+
+  <p>
+    In the <b>training phase, we use a method known as 'teacher forcing' </b>where we manually input and append the correct word to the decoder layer's input sequence at each timestep to predict the next word.
+  </p>
+
+  <p>
+    During <b>inference, the predicted next word is appended to the current input sequence of the decoder, and until a 'END' token is generated, the next word is predicted and appended to the sequence.</b>
+  </p>
+
+    <h2 id="understanding-attentionnbsp">
+      Understanding Attention&nbsp;
     </h2>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/SCALDE-md.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-md-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-md-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-md-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-md-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-md-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-md-2xl.png 1600w"  height="535" width="500" alt="" />
-      <figcaption>Scaled Dot Product Attention</figcaption>
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/SCALDE.png" height="535" width="500" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/SCALDE-2xl.png 1600w">
+      <figcaption>Scaled Dot Product Attention </figcaption>
     </figure>
 
   <p>
-    &nbsp;
+    <b>Attention </b>is what makes the transformer understand long-range patterns in the sequence data that it processes and can make predictions considering the context of the input sequence and the relationships between each word vector in each sequence. 
   </p>
 
   <p>
-    Attention is what makes the transformer understand long-range patterns in the sequence data that it processes and can make predictions considering the context of the input sequence and the relationships between each word vector in each sequence.
-<br>
-<br>The self-attention mechanism compares every word token in a given sequence with every other word token in the sequence and gauges how much they are important to each other. 
-<br>
-<br>They model the relationship each word token has with each other in the sequence. Whether that relationship is strong or weak, based on these attention scores, the feedforward layers of the encoder/decoder layer can make better predictions by understanding the dependency of each word token with the rest of the word tokens. 
-<br>
-<br>The below matrices shows how the attention layer scores word vector pairs based on how strong the relationships is between the two word vectors in the sequence. 
-<br>
-<br>Note that each word's contextual meaning as well as positional information is taken into account when the attention layer computes the scores.&nbsp;
+    The <b>self-attention mechanism compares every word token in a given sequence with every other word token in the sequence and gauges how much they are important to each other.</b>&nbsp;
   </p>
 
-  <div  class="gallery-wrapper gallery-wrapper--center">
+  <p>
+    They model the relationship each word token has with each other in the sequence. Whether that relationship is strong or weak, based on these attention scores, the feedforward layers of the encoder/decoder layer can make better predictions by understanding the dependency of each word token with the rest of the word tokens.&nbsp;
+  </p>
+
+  <p>
+    The below matrices shows how the attention layer scores word vector pairs based on how strong the relationships is between the two word vectors in the sequence.&nbsp;
+  </p>
+
+  <p>
+    Note that each word's contextual meaning as well as positional information is taken into account when the attention layer computes the scores.&nbsp;
+  </p>
+
+  <div  class="gallery-wrapper">
     <div class="gallery" data-columns="3">
       <figure class="gallery__item">
       <a href="https://thenlpstudent.github.io/media/posts/1/gallery/attention2-2.PNG" data-size="329x339">
-        <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/gallery/attention2-2-thumbnail.PNG" height="339" width="329" alt="" />
+        <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/gallery/attention2-2-thumbnail.PNG" height="339" width="329" alt="" >
       </a>
       
     </figure><figure class="gallery__item">
       <a href="https://thenlpstudent.github.io/media/posts/1/gallery/attention1-2.PNG" data-size="346x345">
-        <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/gallery/attention1-2-thumbnail.PNG" height="345" width="346" alt="" />
+        <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/gallery/attention1-2-thumbnail.PNG" height="345" width="346" alt="" >
       </a>
       
     </figure>
@@ -1242,38 +654,55 @@ print(fibBottomUp(5000)) # it works :)
   </div>
 
   <p>
-    The attention model works by comparing every word token with every other word token using the dot-product operation. The more significant the magnitude of the dot-product, the higher likelihood that the pair of word vectors have a strong relationship and vice versa. Thus, the attention mechanism functions as a lookup dictionary.
-<br>
-<br>A dictionary has queries, keys, and values.
-<br>We match up the queries with the keys and weigh them. The higher the dot product of the query and key pair, the higher the likelihood of them relating to one another.
-<br>
-<br>With the multiplication of the query and key pairs together with every Value vector in the Value Matrix, we find which word is most likely has a strong connection with which word in the sequence. 
-<br>
-<br>These query, key, and value are matrices created by multiplying the input sequence by weight matrices Wq, Wk, and Wv. These parameters are fine-tuned when the transformer trains, and over time the attention mechanism can learn the interrelationships between each word token for effective prediction over time. 
-<br>
-<br>Here are the formulas that generate matrices Q for Query, K for Key, and V for Value.&nbsp;
+    The attention model works by comparing every word token with every other word token using the dot-product operation. The more significant the magnitude of the dot-product, the higher likelihood that the pair of word vectors have a strong relationship and vice versa. Thus, the attention mechanism functions as a <b>lookup dictionary.</b>
+  </p>
+
+  <p>
+    A dictionary has <b>queries, keys, and values</b>. <br>We match up the queries with the keys and weigh them. The higher the dot product of the query and key pair, the higher the likelihood of them relating to one another. <br>
+  </p>
+
+  <p>
+    With the multiplication of the query and key pairs together with every Value vector in the Value Matrix, we find which word is most likely has a strong connection with which word in the sequence.&nbsp;
+  </p>
+
+  <p>
+    These query, key, and value are matrices created by multiplying the input sequence by weight matrices<b> Wq, Wk, </b>and <b>Wv</b>. These parameters are fine-tuned when the transformer trains, and over time the attention mechanism can learn the interrelationships between each word token for effective prediction over time.&nbsp;
+  </p>
+
+  <p>
+    Here are the formulas that generate matrices Q for Query, K for Key, and V for Value.&nbsp;<br>
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Capture.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Capture-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Capture-2xl.PNG 1600w"  height="213" width="205" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/CodeCogsEqn1.gif" height="32" width="145" alt="" >
+      
+    </figure>
+
+    <figure class="post__image post__image--center">
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/CodeCogsEqn2.gif" height="27" width="153" alt="" >
+      
+    </figure>
+
+    <figure class="post__image post__image--center">
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/CodeCogsEqn3.gif" height="27" width="147" alt="" >
       
     </figure>
 
   <p>
-    The below diagram shows how the matrix multiplication occurs visually
+    The below diagram shows how the matrix multiplication occurs visually&nbsp;
   </p>
 
     <figure class="post__image post__image--wide">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/test1-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/test1-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/test1-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/test1-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/test1-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/test1-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/test1-md-2xl.PNG 1600w"  height="290" width="500" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/test1.PNG" height="290" width="500" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/test1-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/test1-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/test1-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/test1-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/test1-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/test1-2xl.PNG 1600w">
       
     </figure>
 
   <p>
-    Here are the formulae that calculate the attention score for a given input sequence, where M is the mask matrix, which is explained in the next section.
+    Here are the formulae that calculate the attention score for a given input sequence, where M is the mask matrix, which is explained in the next section.&nbsp;
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/CodeCogsEqn5.gif" height="77" width="381" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/CodeCogsEqn5.gif" height="77" width="381" alt="" >
       
     </figure>
 
@@ -1282,30 +711,40 @@ print(fibBottomUp(5000)) # it works :)
     </h3>
 
   <p>
-    A design feature of attention is masking. When calculating attention, it's important that we only consider the attention scores of valid word vectors.
-<br>
-<br>Some sentences might not be of the length as the sequence size in the encoder layer, and sentences can have varying lengths. So we add a unique token known as the 'PAD' token to make all sentences the same length. 
-<br>
-<br>However, the 'PAD' token is meaningless. Therefore we don't calculate the attention score of that token. 
-<br>
-<br>To cancel out the attention score of 'PAD' tokens, before we calculate the attention score using the SoftMax function, we add a mask matrix to the attention score.
-<br>
-<br>A mask matrix in the encoder layer might look something like this.
+    A design feature of attention is masking.&nbsp;<b>When calculating attention, it's important that we only consider the attention scores of valid word vectors.</b>
+  </p>
+
+  <p>
+    Some sentences might not be of the length as the sequence size in the encoder layer, and sentences can have varying lengths. So we add a unique token known as the <b>'PAD' token</b> to make all sentences the same length.&nbsp;
+  </p>
+
+  <p>
+    However, the 'PAD' token is meaningless. Therefore we don't calculate the attention score of that token.&nbsp;
+  </p>
+
+  <p>
+    To cancel out the attention score of 'PAD' tokens, before we calculate the attention score using the SoftMax function, we add a mask matrix to the attention score.
+  </p>
+
+  <p>
+    A mask matrix in the encoder layer might look something like this.&nbsp;&nbsp;
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/mask1-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/mask1-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask1-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask1-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask1-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask1-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask1-md-2xl.PNG 1600w"  height="421" width="507" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/mask1.PNG" height="421" width="507" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/mask1-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask1-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask1-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask1-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask1-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask1-2xl.PNG 1600w">
       
     </figure>
 
   <p>
-    In the decoder layers, we want to force the network to only make predictions by looking at the word before it. Thus, we force the network to guess the next word in the sequence by looking back at the words before it. This type of mask is known as a look-ahead mask. 
-<br>
-<br>Here's what a mask in the decoder layer might look like this.
+    In the decoder layers, we want to force the network to only make predictions by looking at the word before it. Thus, we force the network to guess the next word in the sequence by looking back at the words before it. This type of mask is known as a look-ahead mask.&nbsp;
+  </p>
+
+  <p>
+    Here's what a mask in the decoder layer might look like this.
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/mask2-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/mask2-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask2-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask2-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask2-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask2-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask2-md-2xl.PNG 1600w"  height="388" width="447" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/mask2.PNG" height="388" width="447" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/mask2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/mask2-2xl.PNG 1600w">
       
     </figure>
 
@@ -1314,12 +753,12 @@ print(fibBottomUp(5000)) # it works :)
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/softmax-fn-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-md-2xl.PNG 1600w"  height="271" width="768" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/softmax-fn.PNG" height="313" width="886" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/softmax-fn-2xl.PNG 1600w">
       <figcaption>How the attention weight matrix is calculated using the Softmax function with a suitable mask</figcaption>
     </figure>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Group-38-md.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-md-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-md-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-md-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-md-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-md-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-md-2xl.png 1600w"  height="600" width="768" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/Group-38.png" height="727" width="930" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/Group-38-2xl.png 1600w">
       <figcaption>How the final output of the self attention layer is calculated by using the V (values) matrix</figcaption>
     </figure>
 
@@ -1328,113 +767,131 @@ print(fibBottomUp(5000)) # it works :)
     </h3>
 
   <p>
-    In the decoder layer, we have an attention layer that relies on the encoder's input representation. 
-<br>
-<br>The encoder's input representation takes the Query and Key values, and the value matrix is taken from the decoder's input. Intuitively this means that we find the relationship between the encoder's input word vectors and how it relates to the decoder's word vectors. 
-<br>
-<br>For example, in the context of machine translation, if you have English words as input and translating them into German, the encoder's input representation would be English word vectors, and the decoder's input representation would be German word vectors. We find the relationship between the encoder's input representation and the decoder's input representation, essentially finding out how strong or weak the relationship is between English and German word pairs. 
-<br>
-<br>The below matrix shows how the attention layer gauges and compares every German word in the output sequence with every English word in the input sequence, and models the relationship between both the languages.&nbsp;
+    In the decoder layer, we have an attention layer that relies on the encoder's input representation.&nbsp;
+  </p>
+
+  <p>
+    The encoder's input representation takes the Query and Key values, and the value matrix is taken from the decoder's input. Intuitively this means that we find the relationship between the encoder's input word vectors and how it relates to the decoder's word vectors.&nbsp;
+  </p>
+
+  <p>
+    For example, in the context of machine translation, if you have English words as input and translating them into German, the encoder's input representation would be English word vectors, and the decoder's input representation would be German word vectors. We find the relationship between the encoder's input representation and the decoder's input representation, essentially finding out how strong or weak the relationship is between English and German word pairs.&nbsp;
+  </p>
+
+  <p>
+    The below matrix shows how the attention layer gauges and compares every German word in the output sequence with every English word in the input sequence, and models the relationship between both the languages.&nbsp;
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/scaledd-2-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-md-2xl.PNG 1600w"  height="402" width="350" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/scaledd-2.PNG" height="402" width="350" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/scaledd-2-2xl.PNG 1600w">
       
     </figure>
 
-    <h2 id="multihead-attention-cause-ngt1-heads-are-better-than-one">
-      Multi-Head Attention: cause n&gt;1 heads are better than one!
+    <h2 id="multihead-attention-cause-ngt1-heads-are-better-than-onenbsp">
+      Multi-Head Attention: cause n&gt;1 heads are better than one!&nbsp;
     </h2>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/multi-head-attention_l1A3G7a-md.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-md-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-md-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-md-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-md-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-md-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-md-2xl.png 1600w"  height="648" width="500" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/multi-head-attention_l1A3G7a.png" height="648" width="500" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-xs.png 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-sm.png 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-md.png 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/multi-head-attention_l1A3G7a-2xl.png 1600w">
       <figcaption>Multi-Head Attention mechanism in the transformer model, found in both the encoder & decoder layers</figcaption>
     </figure>
 
   <p>
-    <b>Multi-head attention splits the input sequence into multiple parts and applies scaled dot product attention to each part individually. 
-</b><br>
-<br>This has been shown to improve the quality of attention as more complex relationships between word tokens can be extracted. 
-<br>
-<br>The input sequence is split based on the number of heads, a hyperparameter set before training the transformer. 
-<br>
-<br>For example, if the head size is 8, the input sequence is split into eight equal parts by dividing the embedding size by the number of attention heads. This is known as the query size.
-<br>
-<br>Query size is equal to the embedding size divided by the number of attention heads. 
-<br>
-<br>A linear layer is used to get the Q, K, and V matrices by multiplying the input matrix by the corresponding weight matrix. In this example, the embedding size is 6, and the number of attention heads used is 2. Therefore the query size is 6/2, which is 3. 
-<br>
-<br>As you can see in the above diagram, there is a red line separating the weights of the two heads, which is known as the logical split. When implementing, each attention head doesn't have its weight matrix, but the weights for every attention head are in one matrix. Thus, it's designed to easily update the weight matrices without taking up much memory, compute power, or time.&nbsp;
+    <b>Multi-head attention splits the input sequence into multiple parts and applies scaled dot product attention to each part individually</b>.&nbsp;
   </p>
 
-    <figure class="post__image post__image--wide">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part1-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part1-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part1-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part1-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part1-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part1-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part1-md-2xl.PNG 1600w"  height="341" width="605" alt="" />
-      <figcaption>Using a logical split to share weights for the attention heads in the same weight matrices</figcaption>
-    </figure>
+  <p>
+    This has been shown to improve the quality of attention as more complex relationships between word tokens can be extracted.&nbsp;
+  </p>
 
   <p>
-    Same as before, the K matrix transposes to multiply the Q and K matrices together. 
-<br>
-<br>However, before multiplying both these matrices, we first add an extra dimension known as the head size, which is 2 in this case. 
-<br>
-<br>This turns the 2D Q and K matrices to 3 dimensional. The V matrix is also reshaped to have a head dimension. Therefore all matrices are reshaped to the form Sequence Size x Head Size x Query Size.
+    The input sequence is split based on the number of heads, a hyperparameter set before training the transformer.&nbsp;
+  </p>
+
+  <p>
+    For example, if the head size is 8, the input sequence is split into eight equal parts by dividing the embedding size by the number of attention heads. This is known as the <b>query size</b>.
+  </p>
+
+  <p>
+    Query size is equal to the embedding size divided by the number of attention heads.&nbsp;
+  </p>
+
+  <p>
+    A linear layer is used to get the Q, K, and V matrices by multiplying the input matrix by the corresponding weight matrix. In this example, the <b>embedding size is 6</b>, and the <b>number of attention heads used is 2</b>. <b>Therefore the query size is 6/2, which is 3.&nbsp;</b>
+  </p>
+
+  <p>
+    As you can see in the above diagram, there is a red line separating the weights of the two heads, which is known as the logical split. When implementing, each attention head doesn't have its weight matrix, but the weights for every attention head are in one matrix. Thus, it's designed to easily update the weight matrices without taking up much memory, compute power, or time.&nbsp;
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part2-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part2-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part2-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part2-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part2-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part2-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part2-md-2xl.PNG 1600w"  height="504" width="768" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part1.PNG" height="341" width="605" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part1-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part1-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part1-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part1-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part1-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part1-2xl.PNG 1600w">
+      <figcaption>Using a logical split to share weights for the attention heads in the same weight matrices </figcaption>
+    </figure>
+
+  <p>
+    Same as before, the K matrix transposes to multiply the Q and K matrices together.&nbsp;
+  </p>
+
+  <p>
+    However, before multiplying both these matrices, we first add an extra dimension known as the head size, which is 2 in this case.&nbsp;
+  </p>
+
+  <p>
+    This turns the 2D Q and K matrices to 3 dimensional. The V matrix is also reshaped to have a head dimension. Therefore all matrices are reshaped to the form Sequence Size x Head Size x Query Size.&nbsp;
+  </p>
+
+    <figure class="post__image post__image--center">
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part2.PNG" height="533" width="812" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part2-2xl.PNG 1600w">
       <figcaption>Introducing a new dimension known as 'head size' to explicitly separate calculations for different attention heads</figcaption>
     </figure>
 
   <p>
-    Afterward, we carry out the matrix multiplication for Q and K, where we multiply the matrices for each head, Q_head1 with K_head1 and Q_head2 with K_head2. 
-<br>
-<br>Afterward, every matrix multiplication of Q and K for each head results in a matrix with the shape sequence size x sequence size. 
-<br>
-<br>Finally, we add masks for each head's Q and K product, and we scale it by the square root of the query size and then apply a SoftMax function over it, creating separate attention weight matrices for each head, as show below.
+    Afterward, we carry out the matrix multiplication for Q and K, 	where we multiply the matrices for each head, Q_head1 with K_head1 and Q_head2 with K_head2.&nbsp;
   </p>
 
-    <figure class="post__image post__image--wide">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part3-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part3-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part3-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part3-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part3-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part3-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part3-md-2xl.PNG 1600w"  height="227" width="600" alt="" />
-      
-    </figure>
+  <p>
+    Afterward, every matrix multiplication of Q and K for each head results in a matrix with the shape sequence size x sequence size.&nbsp;
+  </p>
 
   <p>
-    Finally, we multiply the corresponding V matrix's heads with attention weight heads giving us attention scores for each head, as show below.
+    Finally, we add masks for each head's Q and K product, and we scale it by the square root of the query size and then apply a SoftMax function over it, creating separate attention weight matrices for each head, as show below.
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part4-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part4-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part4-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part4-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part4-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part4-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part4-md-2xl.PNG 1600w"  height="369" width="600" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part3.PNG" height="227" width="600" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part3-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part3-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part3-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part3-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part3-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part3-2xl.PNG 1600w">
       
     </figure>
 
   <p>
-    We need to reshape it back into its original form and merge all the results from the different heads into one by dropping the head dimension altogether.
-<br>
-<br>First, we reshape the matrix into the form Sequence Size x Query Size x Head Size by swapping the head size with the query size, which alters the shape of the matrix to the following form.
-<br>
-<br>We can get rid of the head dimension, which makes the 3-dimensional matrix back into two dimensions.
+    Finally, we multiply the corresponding V matrix's heads with attention weight heads giving us attention scores for each head, as show below.&nbsp;
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part5-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part5-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part5-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part5-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part5-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part5-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part5-md-2xl.PNG 1600w"  height="269" width="600" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part4.PNG" height="369" width="600" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part4-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part4-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part4-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part4-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part4-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part4-2xl.PNG 1600w">
       
     </figure>
 
   <p>
-    &nbsp;
-  </p>
-
-  <p>
-    Afterward, we multiply the resulting merged matrix using a <b>weight matrix W0</b> with a shape of <b>embedding size x embedding size</b>, and <b>we add a bias vector to the resulting matrix.&nbsp;</b><br>
+    We need to reshape it back into its original form and merge all the results from the different heads into one by dropping the head dimension altogether. <br><br>First, we reshape the matrix into the form Sequence Size x Query Size x Head Size by swapping the head size with the query size, which alters the shape of the matrix to the following form. <br><br>We can get rid of the head dimension, which makes the 3-dimensional matrix back into two dimensions.
   </p>
 
     <figure class="post__image post__image--center">
-      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part6-md.PNG" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part6-md-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part6-md-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part6-md-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part6-md-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part6-md-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part6-md-2xl.PNG 1600w"  height="206" width="600" alt="" />
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part5.PNG" height="269" width="600" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part5-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part5-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part5-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part5-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part5-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part5-2xl.PNG 1600w">
       
     </figure>
 
   <p>
-    This is how multi-head attention is done to a single sample of our input. Likewise, we carry out the following process simultaneously for all sentence samples, thanks to the fact that matrix multiplication is inherently <b>parallelizable</b>.&nbsp;
+    Afterward, we multiply the resulting merged matrix using a <b>weight matrix W0</b> with a shape of <b>embedding size x embedding size</b>, and we add a<b> bias vector to the resulting matrix.</b>
+  </p>
+
+    <figure class="post__image post__image--center">
+      <img loading="lazy" src="https://thenlpstudent.github.io/media/posts/1/part6.PNG" height="206" width="600" alt=""  sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/1/responsive/part6-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/1/responsive/part6-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/1/responsive/part6-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/1/responsive/part6-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/1/responsive/part6-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/1/responsive/part6-2xl.PNG 1600w">
+      
+    </figure>
+
+  <p>
+    This is how multi-head attention is done to a single sample of our input.<b> Likewise, we carry out the following process simultaneously for all sentence samples</b>, thanks to the fact that <b>matrix multiplication is inherently parallelizable.&nbsp;</b>
   </p>
 
     <h2 id="referencesnbsp">
@@ -1442,27 +899,11 @@ print(fibBottomUp(5000)) # it works :)
     </h2>
 
   <ul>
-    <li><a href="https://arxiv.org/pdf/1706.03762.pdf" target="_blank" class="">Attention is all you need - Ashish Vaswani et al, NIPS 2017</a></li><li><a href="https://www.tensorflow.org/text/tutorials/transformer" target="_blank">Tensor flow model for language understanding</a>&nbsp;</li>
+    <li><a href="https://arxiv.org/pdf/1706.03762.pdf">Attention is all you need - Ashish Vaswani et al, NIPS 2017</a><br></li><li><a href="https://www.tensorflow.org/text/tutorials/transformer">Tensor flow model for language understanding&nbsp;</a></li>
   </ul>
 
   <p>
-    &nbsp;&nbsp;
-  </p>
-
-  <p>
-    &nbsp;
-  </p>
-
-  <p>
-    &nbsp;
-  </p>
-
-  <p>
-    &nbsp;
-  </p>
-
-  <p>
-    &nbsp;
+    
   </p>
 
   <p>
