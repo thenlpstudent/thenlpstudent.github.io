@@ -3,23 +3,178 @@
     <title>The NLP Student&#x27;s Blog</title>
     <link href="https://thenlpstudent.github.io/feed.xml" rel="self" />
     <link href="https://thenlpstudent.github.io" />
-    <updated>2023-03-31T18:55:16+05:30</updated>
+    <updated>2023-04-05T15:40:27+05:30</updated>
     <author>
         <name>The NLP Student</name>
     </author>
     <id>https://thenlpstudent.github.io</id>
 
     <entry>
-        <title>New post 2</title>
+        <title>One Shot Learning, Few Shot Learning, and Similarity </title>
         <author>
             <name>The NLP Student</name>
         </author>
         <link href="https://thenlpstudent.github.io/new-post-2.html"/>
         <id>https://thenlpstudent.github.io/new-post-2.html</id>
 
-        <updated>2023-03-31T18:55:16+05:30</updated>
-            <summary></summary>
-        <content></content>
+        <updated>2023-04-05T15:40:27+05:30</updated>
+            <summary>
+                <![CDATA[
+                    In this article we would be going over one shot learning, and few shot learning. Let's say you take a trip to the zoo with a kid. The kid is excited to learn about the various animals in the zoo, their names, and how they&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>In this article we would be going over one shot learning, and few shot learning. </p>
+<div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1gt0shkn76d">The basic idea</a>
+<ul>
+<li><a href="#mcetoc_1gt0shkn76e">Let's break down the process</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1gt0shkn76f">The Main Concepts</a>
+<ul>
+<li><a href="#mcetoc_1gt2fu1u17">The Training set</a></li>
+<li><a href="#mcetoc_1gt2fvb3pg">The Support set</a></li>
+<li><a href="#mcetoc_1gt2fvb3ph">The Query</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1gt8e8muqea">Training Models to Detect Similarity Using Siamese Networks </a>
+<ul>
+<li><a href="#mcetoc_1gt83aduh9g">The Contrastive Loss Function</a></li>
+<li><a href="#mcetoc_1gt2g3pla1a">Triplet Loss </a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1gt85s9nlbd">References </a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1gt0shkn76d"><strong>The basic idea</strong></h2>
+<p>Let's say you take a trip to the zoo with a kid. The kid is excited to learn about the various animals in the zoo, their names, and how they look. </p>
+<p><span data-preserver-spaces="true">The kid sees an </span><strong><span data-preserver-spaces="true">otter</span></strong><span data-preserver-spaces="true">. She asks you what that animal is called since the kid doesn't know yet that the animal she sees is called an otter. </span></p>
+<figure class="n3VNCb pT0Scc KAlRDb align-center"><img loading="lazy"  style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal); outline: 3px solid rgba(var(--color-primary-rgb), 0.55)  !important;" role="" src="https://www.seattleaquarium.org/sites/default/files/images/_MG_5379-Edit%20web.jpg" alt="ENJOY THE AQUARIUM FROM HOME: JOIN US FOR SEA OTTER WEEK! | Seattle Aquarium" width="481" height="341" aria-label="" data-noaft="1" data-is-external-image="true"></figure><br><br></p>
+<p><span data-preserver-spaces="true">Instead of telling the kid that the animal is an otter, </span><strong><span data-preserver-spaces="true">we show her a chart</span></strong><span data-preserver-spaces="true"> </span><strong><span data-preserver-spaces="true">detailing all the animals in the zoo</span></strong><span data-preserver-spaces="true">. </span></p>
+<p><span data-preserver-spaces="true">Next to the image of each animal is the corresponding name of that animal. </span></p>
+<p><span data-preserver-spaces="true">The kid compares all the animals in the chart with the one he sees in front of her, deduces that the animal she sees is an </span><strong><span data-preserver-spaces="true">otter</span></strong><span data-preserver-spaces="true">. </span></p>
+<h3 id="mcetoc_1gt0shkn76e">Let's break down the process</h3>
+<p><span data-preserver-spaces="true">Understanding how the kid deduces that the animal is an otter by looking at and comparing each image in the chart is vital to understand the motivation and inspiration behind one-shot and few-shot learning. </span></p>
+<p><span data-preserver-spaces="true">Let's say the image the kid sees with her eye is the </span><strong><span data-preserver-spaces="true">query image</span></strong><span data-preserver-spaces="true">. </span></p>
+<p><span data-preserver-spaces="true">So the </span><strong><span data-preserver-spaces="true">query image </span></strong><span data-preserver-spaces="true">is, </span></p>
+<figure class="post__image align-center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/Capture-2.PNG" alt="" width="303" height="213" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/Capture-2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/Capture-2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/Capture-2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/Capture-2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/Capture-2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/Capture-2-2xl.PNG 1600w"></figure>
+<p><span data-preserver-spaces="true">The images in the chart are as follows; let's call the pictures of the chart the </span><strong><span data-preserver-spaces="true">support set</span></strong><span data-preserver-spaces="true">.</span></p>
+<p><span data-preserver-spaces="true">So the</span><strong><span data-preserver-spaces="true"> support set</span></strong><span data-preserver-spaces="true"> is as follows,</span></p>
+<figure class="post__image align-center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/Group-11.png" alt="" width="1845" height="576" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/Group-11-xs.png 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/Group-11-sm.png 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/Group-11-md.png 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/Group-11-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/Group-11-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/Group-11-2xl.png 1600w"></figure>
+<p><span data-preserver-spaces="true">The kid </span><strong><span data-preserver-spaces="true">compares</span></strong><span data-preserver-spaces="true"> the </span><strong><span data-preserver-spaces="true">query image with every image in the support set, </span></strong><span data-preserver-spaces="true">and finds out which image is the most similar to the query image. </span></p>
+<p><span data-preserver-spaces="true">In her head, she might assign scores to each image in the support set, depending on how well the query image matches with the support set photos.</span></p>
+<p><span data-preserver-spaces="true">Then she would pick the image most similar to the query image from the support set, and since the label is right beside the support set image, she knows what that animal is called. </span></p>
+<p><span data-preserver-spaces="true">This is the very idea behind one-shot and few-shot learning. </span></p>
+<h2 id="mcetoc_1gt0shkn76f">The Main Concepts</h2>
+<p>In few shot learning, there are 3 main concepts that you should be aware of. </p>
+<ol>
+<li>The training set </li>
+<li>The support set </li>
+<li>The query </li>
+</ol>
+<h3 id="mcetoc_1gt2fu1u17">The Training set</h3>
+<p>The training set contains labeled input elements that you use to train the model. For each class (e.g., Husky, Elephant), you have multiple sets of images or inputs so that the model can learn variations of the same input class, which makes the prediction accuracy much higher.<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/test2.PNG" alt="" width="1010" height="574" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/test2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/test2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/test2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/test2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/test2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/test2-2xl.PNG 1600w"></figure>
+<p>But compared with traditional classification, few-shot learning focuses on understanding the degree of similarity between two images or inputs.<br><br>By sampling two random samples from the training set, and labeling them either 1 or 0, depending on if the two samples are similar or different, the model learns to predict how similar those two images are.</p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/sim-2.PNG" alt="" width="1356" height="845" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/sim-2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/sim-2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/sim-2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/sim-2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/sim-2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/sim-2-2xl.PNG 1600w"></figure>
+<p>The model tries to learn a similarity function by comparing two images at a time with the training set, whereas you can see in the above image when comparing two input images, the model can predict how <strong>similar two huskies are, giving it a score of 0.8</strong>, which means the model knows that the two images have the same context. <br><br>However, when the model is given two images that aren't similar in context <strong>(i.e., husky and elephant),</strong> the <strong>model gives it a similarity score of 0.2</strong>, which is low, meaning those two images aren't similar to one another. </p>
+<h3 id="mcetoc_1gt2fvb3pg">The Support set</h3>
+<p>The support set is used to help make a prediction.</p>
+<p>The model that has learned a suitable similarity function can now compare the query image with every given image in the support set and assign scores,<strong> a higher score if the model thinks that the query image and the image from the support set are similar. </strong><br><br>Then once the model compares all given images in the support set, <strong>the prediction is whatever input class that has the highest similarity score with the query image. </strong></p>
+<h3 id="mcetoc_1gt2fvb3ph"><figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/ss.PNG" alt="" width="1243" height="213" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/ss-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/ss-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/ss-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/ss-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/ss-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/ss-2xl.PNG 1600w"></figure>The Query</h3>
+<p>The query input is the input that we provide to the model to predict its class. <br><br>The <strong>query input is then compared with every sample in the support set,</strong> and via the similarity function, the model learned can use to determine the scores of how well the query matches with each sample in the support set. <br><br>The<strong> sample with the highest score is picked as the final prediction</strong>, and the name of the class of that selected sample is the final classification class. </p>
+<figure class="post__image align-center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/qq.PNG" alt="" width="339" height="277" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/qq-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/qq-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/qq-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/qq-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/qq-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/qq-2xl.PNG 1600w"></figure>
+<p>So in the following example, if we use the 'rabbit' image as the query image, then the query would have the highest similarity score with the 'rabit' sample image in the support set, so the final prediction would be 'rabbit.' </p>
+<h2 id="mcetoc_1gt8e8muqea"><span data-preserver-spaces="true">Training Models to Detect Similarity Using Siamese Networks </span></h2>
+<p>A commonly used machine learning neural net model that performs similarity prediction is a Siamese Network. </p>
+<p>It's named because the architecture of the network resembles Siamese twins. <br><br>The below image depicts a Siamese network. </p>
+<h3 id="mcetoc_1gt83aduh9f"><figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/tttt.PNG" alt="" width="1785" height="839" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/tttt-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/tttt-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/tttt-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/tttt-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/tttt-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/tttt-2xl.PNG 1600w"></figure></h3>
+<p>In the above diagram, the inputs are two rabbit images. The output of the network is a similarity score of 0.98, which means the network has predicted that those two images are from the same class and thus similar. </p>
+<p>The inputs are first fed into a convolutional neural network, where the networks have the same weights and biases (shared weights &amp; biases). </p>
+<p><strong>The output of the convolutional neural network is a vector representation of the input images</strong>, called h(image1) and h(image2), where image1 and image2 are inputs, and 'h' is the convolutional neural network function. </p>
+<p>Once you have vector representations of the images, then you can use a distance metric, like <strong>Euclidean distance</strong>, to measure how far apart these two vectors lie on the projected plane. </p>
+<p>The idea here is that if the two images are alike, then they are close to each other, but if the two images are far apart (e.g., an image of a rabbit and an image of a dog), then the vectors would be far away from each other. </p>
+<p>Once we get the distance metric, we squash the scalar value via a sigmoid function to a range between 0 and 1. </p>
+<p>A<strong> sigmoid function</strong> is as follows,</p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/sigmod.PNG" alt="" width="288" height="108" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/sigmod-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/sigmod-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/sigmod-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/sigmod-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/sigmod-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/sigmod-2xl.PNG 1600w"></figure>
+<p>The graph of the sigmoid function looks like this, </p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/sigmoidgg-3.PNG" alt="" width="702" height="361" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/sigmoidgg-3-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/sigmoidgg-3-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/sigmoidgg-3-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/sigmoidgg-3-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/sigmoidgg-3-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/sigmoidgg-3-2xl.PNG 1600w"></figure>
+<p>As you can see in the above graph, the distance metric, once plugged into the sigmoid function, would be squashed to a value between 0 and 1. </p>
+<p>To train this type of network, we use a <strong>"contrastive loss"</strong> function</p>
+<h3 id="mcetoc_1gt83aduh9g">The Contrastive Loss Function</h3>
+<p><span data-preserver-spaces="true">Contrastive Loss is a metric-learning loss function introduced by Yann Le Cunn et al. in 2005 in the paper</span><strong><span data-preserver-spaces="true"> "Dimensionality Reduction by Learning an Invariant Mapping."</span></strong><span data-preserver-spaces="true"> </span></p>
+<p><span data-preserver-spaces="true">A contrastive loss function is a perfect fit to train a Siamese network because the <strong>goal of a Siamese network isn't to classify an input but rather to differentiate between two given inputs. </strong></span></p>
+<figure class="wp-image-19444 entered lazyloaded"><img loading="lazy"  src="https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated.png?size=582x64&amp;lossy=1&amp;strip=1&amp;webp=1" sizes="(max-width: 582px) 100vw, 582px" srcset="https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated.png?size=126x14&amp;lossy=1&amp;strip=1&amp;webp=1 126w, https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated-300x33.png?lossy=1&amp;strip=1&amp;webp=1 300w, https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated.png?size=378x42&amp;lossy=1&amp;strip=1&amp;webp=1 378w, https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated.png?size=504x55&amp;lossy=1&amp;strip=1&amp;webp=1 504w, https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated.png?lossy=1&amp;strip=1&amp;webp=1 582w" alt="" width="582" height="64" data-lazy-srcset="https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated.png?size=126x14&amp;lossy=1&amp;strip=1&amp;webp=1 126w, https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated-300x33.png?lossy=1&amp;strip=1&amp;webp=1 300w, https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated.png?size=378x42&amp;lossy=1&amp;strip=1&amp;webp=1 378w, https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated.png?size=504x55&amp;lossy=1&amp;strip=1&amp;webp=1 504w, https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated.png?lossy=1&amp;strip=1&amp;webp=1 582w" data-lazy-sizes="(max-width: 582px) 100vw, 582px" data-lazy-src="https://b2633864.smushcdn.com/2633864/wp-content/uploads/2021/01/contrastive_loss_keras_constrastive_loss_function_updated.png?size=582x64&amp;lossy=1&amp;strip=1&amp;webp=1" data-ll-status="loaded" data-is-external-image="true"></figure>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">The above is the formulae that describe contrastive loss. </span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">We can break this formula down into smaller chunks so that we can easily understand what's going on. <br></span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">The formulae are of two parts, as shown in the below diagram.  </span></p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/ttttt.PNG" alt="" width="786" height="188" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/ttttt-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/ttttt-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/ttttt-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/ttttt-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/ttttt-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/ttttt-2xl.PNG 1600w"></figure>
+<p><span data-preserver-spaces="true">Notice that </span><strong><span data-preserver-spaces="true">Y</span></strong><span data-preserver-spaces="true"> is the desired outcome of the network.</span></p>
+<p><span data-preserver-spaces="true">If the two inputs are similar, we expect the network to output a value close to one or one. </span></p>
+<p><span data-preserver-spaces="true">If the two inputs are different, we expect the network to output a value that's closer to zero or zero. </span></p>
+<p><span data-preserver-spaces="true">When </span><strong><span data-preserver-spaces="true">Y </span></strong><span data-preserver-spaces="true">is equal to one, then the green part of the formulae can be ignored, as it cancels to zero. (1 - 1) = 0. </span></p>
+<p><span data-preserver-spaces="true">When </span><strong><span data-preserver-spaces="true">Y</span></strong><span data-preserver-spaces="true"> is equal to zero, then the red part of the formulae can be ignored as it cancels to zero (0*D^2 = 0). </span></p>
+<p><span data-preserver-spaces="true">So depending on the context, the contrastive loss function changes to evaluate how well the network performed. </span></p>
+<p><span data-preserver-spaces="true">If we plot the red part of the formulae on a graph, we get a normal quadratic graph. </span></p>
+<figure class="post__image align-center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/gra1.PNG" alt="" width="158" height="114" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/gra1-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/gra1-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/gra1-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/gra1-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/gra1-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/gra1-2xl.PNG 1600w"></figure>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/grr.PNG" alt="" width="473" height="229" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/grr-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/grr-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/grr-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/grr-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/grr-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/grr-2xl.PNG 1600w"></figure>
+<p>Notice that the <strong>minimum </strong>of this graph is when <strong>D (or x) is zero. </strong></p>
+<p><strong>This means if the inputs are similar, to get the minimum loss, the distance (D) between the two embedded vectors (vector representations of the inputs) must be close to one another, or the distance between those two vectors must be almost zero. </strong><br><br>However, when you plot the green part of the contrastive loss formulae, you get the following graph. </p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/ggg22.PNG" alt="" width="1026" height="170" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/ggg22-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/ggg22-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/ggg22-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/ggg22-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/ggg22-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/ggg22-2xl.PNG 1600w"></figure>
+<h3 id="mcetoc_1gt83aduh9h"><figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/ggrr.PNG" alt="" width="348" height="230" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/ggrr-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/ggrr-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/ggrr-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/ggrr-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/ggrr-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/ggrr-2xl.PNG 1600w"></figure></h3>
+<p>This part of the formulae is a max function.</p>
+<p>It is the maximum between either a difference between a margin (M) minus the distance between the two vector representations of the input or zero, squared. </p>
+<p>It means that if the distance between the two vectors is greater than a predefined margin, that means the network performed well, and the loss is zero.</p>
+<p>However, if the two vectors are close-by, then the network performs poorly. <br>Because if you have two different inputs, the idea here is that your network must try to differentiate them, and say that they are different, so the vectors need to be as far away from each other as possible. </p>
+<p>The <strong>margin (M) is a hyperparameter of the Siamese network. </strong></p>
+<p>Using this loss function, you can now use backpropagation to find the gradients of the weights and biases in the network, and using gradient descent, the network can be trained so that the network converges to minimize the contrastive loss function. </p>
+<h3 id="mcetoc_1gt2g3pla1a">Triplet Loss </h3>
+<div class="flex flex-grow flex-col gap-3">
+<div class="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap">
+<div class="markdown prose w-full break-words dark:prose-invert light">
+<p>The idea behind triplet loss is to train a neural network to learn good representations of input data such that similar inputs are mapped close to each other and dissimilar inputs are mapped far apart from each other in a learned feature space. </p>
+<p>The triplet loss function takes in three inputs: an <strong>anchor input</strong>, a <strong>positive input</strong>, and a <strong>negative input</strong>.</p>
+<p>The anchor and positive inputs are samples from the same class, while the negative input is a sample from a different class.</p>
+<p>The<strong> goal of triplet loss is to minimize the distance between the anchor and positive inputs while maximizing the distance between the anchor and negative inputs.</strong></p>
+<p>This encourages the network to learn features that can distinguish between similar and dissimilar inputs.</p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/anchor2-2.PNG" alt="" width="1509" height="815" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/anchor2-2-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/anchor2-2-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/anchor2-2-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/anchor2-2-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/anchor2-2-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/anchor2-2-2xl.PNG 1600w"></figure>
+<p>Formally, let \(X_a\), \(X_p\), and \(X_n\) be an <strong>anchor, positive, and negative sample</strong>, respectively.</p>
+<p>Let \(d(X_a, X_p)\) be the Euclidean distance between the anchor and positive samples and \(d(X_a, X_n)\) be the Euclidean distance between the anchor and negative samples.</p>
+<p>The triplet loss can be defined as:</p>
+<p>\( L = max(0, d(X_a, X_p) - d(X_a, X_n) + margin) \)</p>
+<p>where<strong> margin is a hyperparameter that specifies the minimum desired difference between the distances</strong>.</p>
+<p>The loss is zero when the distance between the anchor and negative samples is greater than the distance between the anchor and positive samples plus the margin.</p>
+<p>Otherwise, the loss is positive and the network is encouraged to update its parameters to increase the margin.</p>
+<p>When you plot the loss function, it looks like this, </p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/4/graph3d.PNG" alt="" width="691" height="606" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/4/responsive/graph3d-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/4/responsive/graph3d-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/4/responsive/graph3d-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/4/responsive/graph3d-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/4/responsive/graph3d-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/4/responsive/graph3d-2xl.PNG 1600w"></figure>
+<p>Notice in the above graph \( x = d(X_a, X_p) \) and \( y = d(X_a, X_n) \) respectively. </p>
+<p>When the distance between the positive sample and the anchor decrease, and the distance between the negative sample and the anchor increase, the loss is flat, meaning its minimum.</p>
+<p>However, if the opposite happens, then the loss increases. </p>
+<p>This is the intuition behind triplet loss.</p>
+<p> </p>
+<p>I hope you enjoyed reading this article on few-shot classifiers.</p>
+<p>In a future article, I will be diving much deeper into this topic of research in the field of Machine Learning.<br><br>Thanks for reading!</p>
+<h2 id="mcetoc_1gt85s9nlbd">References </h2>
+<ol>
+<li>Shushen Wang's lecture series on Few Shot Learning Part 1 and 2. 
+<ol>
+<li><a href="https://www.youtube.com/watch?v=hE7eGew4eeg&amp;t=598s">https://www.youtube.com/watch?v=hE7eGew4eeg</a></li>
+<li><a href="https://www.youtube.com/watch?v=4S-XDefSjTM">https://www.youtube.com/watch?v=4S-XDefSjTM</a></li>
+</ol>
+</li>
+<li><span dir="ltr" role="presentation">Dimensionality Reduction by Learning an Invariant Mapping - Yann LeCun et al, (<a href="http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf">http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf</a>)</span></li>
+</ol>
+<p> </p>
+</div>
+</div>
+</div>
+<h2 id="mcetoc_1gt2g9g7h4e"></h2>
+<h3 id="mcetoc_1gt2g9g7h4f"></h3>
+            ]]>
+        </content>
     </entry>
     <entry>
         <title>The Multi-Armed Bandit Problem </title>
