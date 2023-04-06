@@ -3,12 +3,155 @@
     <title>The NLP Student&#x27;s Blog</title>
     <link href="https://thenlpstudent.github.io/feed.xml" rel="self" />
     <link href="https://thenlpstudent.github.io" />
-    <updated>2023-04-05T15:40:27+05:30</updated>
+    <updated>2023-04-06T13:45:35+05:30</updated>
     <author>
         <name>The NLP Student</name>
     </author>
     <id>https://thenlpstudent.github.io</id>
 
+    <entry>
+        <title>What is Information Entropy?</title>
+        <author>
+            <name>The NLP Student</name>
+        </author>
+        <link href="https://thenlpstudent.github.io/looking-at-entropy.html"/>
+        <id>https://thenlpstudent.github.io/looking-at-entropy.html</id>
+
+        <updated>2023-04-06T13:45:35+05:30</updated>
+            <summary>
+                <![CDATA[
+                    In this article we would be going over the concept of information entropy, a vital topic in machine learning and information theory. Before we understand entropy, a prerequisite is understanding the expected value, a topic in probability theory. Expected value is a mathematical concept that&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>In this article we would be going over the concept of information entropy, a vital topic in <strong>machine learning </strong>and <strong>information theory</strong>. </p>
+<div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1gtal71mm6">What is information theory? </a></li>
+<li><a href="#mcetoc_1gtal71mm7">What is expected value (EV)? </a></li>
+<li><a href="#mcetoc_1gtanb52q2u">What is entropy? </a></li>
+<li><a href="#mcetoc_1gtap5prc5m">References </a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1gtal71mm6">What is information theory? </h2>
+<div class="relative h-[30px] w-[30px] p-1 rounded-sm text-white flex items-center justify-center"> </div>
+<div class="text-xs flex items-center justify-center gap-1 invisible absolute left-0 top-2 -ml-4 -translate-x-full group-hover:visible !invisible"><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Information theory is a branch of mathematics and computer science that studies the quantification, storage, and communication of information. </span></div>
+<div> </div>
+<div class="text-xs flex items-center justify-center gap-1 invisible absolute left-0 top-2 -ml-4 -translate-x-full group-hover:visible !invisible"><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">It was developed by<strong> Claude Shannon</strong> in the mid-20th century at Bell Labs as a mathematical framework for understanding and analyzing communication systems.</span></div>
+<div> </div>
+<div>At its core, <strong>information theory is concerned with measuring the amount of information contained in a message, signal, or data set.</strong></div>
+<div> </div>
+<div>This can be done by calculating the <strong>entropy</strong> of the system, <strong>which is a measure of the uncertainty or randomness of the information.</strong></div>
+<div> </div>
+<div>Therefore information theory states that <strong>entropy is a measure of uncertainty or</strong></div>
+<div><strong> randomness. </strong></div>
+<div> </div>
+<h2 id="mcetoc_1gtal71mm7">What is expected value (EV)? </h2>
+<p>Before we understand entropy, a prerequisite is understanding the expected value, a topic in probability theory. </p>
+<p>Expected value is a mathematical concept that represents the long-term average or average outcome of a random event or process.</p>
+<p>It is calculated by multiplying each possible event outcome by its probability and then summing the results.</p>
+<p>It's better to learn this concept with an example. </p>
+<p>Let's say you flip an unfair coin, the probability of getting heads is 0.6, and the probability of getting tails is 0.4. If you get tails, you win $10, but if you get heads, you lose $5. </p>
+<p>Under these conditions, would you consider playing the game? </p>
+<p>We can use the expected value to estimate how much we would be expected to win or lose on average at each round. </p>
+<p>Let's say you flip the coin 100 times (100 rounds). </p>
+<table style="border-collapse: collapse; width: 100%;" border="1">
+<tbody>
+<tr>
+<td style="width: 33.2843%;"> </td>
+<td class="align-center" style="width: 33.2843%;"><strong>Heads</strong></td>
+<td class="align-center" style="width: 33.2889%;"><strong>Tails</strong></td>
+</tr>
+<tr>
+<td class="align-center" style="width: 33.2843%;"><strong>Probability</strong></td>
+<td class="align-center" style="width: 33.2843%;">0.6</td>
+<td class="align-center" style="width: 33.2889%;">0.4</td>
+</tr>
+<tr>
+<td class="align-center" style="width: 33.2843%;"><strong>Outcome</strong></td>
+<td class="align-center" style="width: 33.2843%;"><strong>- $5</strong></td>
+<td class="align-center" style="width: 33.2889%;"><strong>+ $10</strong></td>
+</tr>
+</tbody>
+</table>
+<p> Based on the above table, in 100 rounds, we would win </p>
+<p>\[100 * 0.4 = 40 \text{ rounds} \]</p>
+<p>and the amount we would win in 40 rounds, is </p>
+<p>\[ 40 *  \$10 = \$400 \]</p>
+<p>Base on the above table, in 100 rounds, we would lose, </p>
+<p>\[100 * 0.6 = 60 \text{ rounds}\]</p>
+<p>and the amount we would lose in 60 rounds, is,</p>
+<p>\[ 60 *  -\$5 = -\$300 \]</p>
+<p>If we combine the above deductions into one single expression and divide by 100, we can get the average earnings/losses per round; we get the below expression</p>
+<p>\[ \frac{(100 * 0.6 *  \$10) + ( 100 *   0.4 *   -\$5)}{100}  \]</p>
+<p>However, we can simplify </p>
+<p>\[ \frac{(\cancel{100} * 0.6 *  \$10) + ( \cancel{100} *   0.4 *   -\$5)}{\cancel{100}}  = 0.6 *  \$10 + (0.4 *  -\$5) = $4\]</p>
+<p><span data-preserver-spaces="true">Therefore, on average, we earn $4 per round, the </span><strong><span data-preserver-spaces="true">expected value (EV)</span></strong><span data-preserver-spaces="true"> of playing the coin toss game with the unfair coin. </span></p>
+<p><span data-preserver-spaces="true">More generally, the expected value can be written as follows, </span></p>
+<p>\[ E[X] = \sum_i x_i * P(X=x_i) \]</p>
+<p>X is a random variable (like the coin toss), and \(x_i\) denotes the outcome of the event, which is associated with the random variable (like getting heads or tails at a given moment), and \(P (X=x_i) \) is the probability that you would get heads/tails (e.g., \(P(X = tails) = 0.4 \) </p>
+<h2 id="mcetoc_1gtanb52q2u">What is entropy? </h2>
+<p>Entropy is a measure of uncertainty. <br><br>Let's say you have orange and blue balls in a bag, as shown below. </p>
+<p>If you randomly select a ball without looking into the bag, there is a higher chance that you will pick an orange color ball. </p>
+<p>It is almost certain that you would pick an orange color ball over a blue ball.</p>
+<p><span data-preserver-spaces="true">Therefore, the uncertainty is low in which ball you would pick. </span></p>
+<p>If you picked an orange ball, you wouldn't be surprised, but if you picked a blue ball you would be surprised. </p>
+<p><span data-preserver-spaces="true">To break down entropy, we need to understand </span><strong><span data-preserver-spaces="true">surprise</span></strong><span data-preserver-spaces="true">. </span></p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/7/Group-12.png" alt="" width="298" height="301" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/7/responsive/Group-12-xs.png 300w ,https://thenlpstudent.github.io/media/posts/7/responsive/Group-12-sm.png 480w ,https://thenlpstudent.github.io/media/posts/7/responsive/Group-12-md.png 768w ,https://thenlpstudent.github.io/media/posts/7/responsive/Group-12-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/7/responsive/Group-12-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/7/responsive/Group-12-2xl.png 1600w"></figure>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Now let's look at another scenario. </span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">In the below image, there are more blue balls than orange ones. </span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">The probability of picking a blue ball is higher than picking an orange ball. </span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">If we were to pick a blue ball, we wouldn't be that much surprised. </span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">But if we picked an orange ball, we would be very surprised.  </span></p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/7/Group-2.png" alt="" width="306" height="309" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/7/responsive/Group-2-xs.png 300w ,https://thenlpstudent.github.io/media/posts/7/responsive/Group-2-sm.png 480w ,https://thenlpstudent.github.io/media/posts/7/responsive/Group-2-md.png 768w ,https://thenlpstudent.github.io/media/posts/7/responsive/Group-2-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/7/responsive/Group-2-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/7/responsive/Group-2-2xl.png 1600w"></figure>
+<p>So we now think that surprise has an inverse relationship with probability. </p>
+<p>A higher probability should make for a lower surprise, and a lower probability should make for a greater surprise. </p>
+<p>However, as tempting as this would be, we can't define surprise like this, where \( p(x) \) is the probability of \(x\)</p>
+<p>\[ \text{surprise} = \frac{1}{p(x)} \]</p>
+<p>The graph for the above function would look something like this, </p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/7/gg22.PNG" alt="" width="582" height="800" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/7/responsive/gg22-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/7/responsive/gg22-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/7/responsive/gg22-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/7/responsive/gg22-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/7/responsive/gg22-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/7/responsive/gg22-2xl.PNG 1600w"></figure>
+<p>Since probability ranges between 0 and 1, the graph halts at 1. </p>
+<p>So if a probability event is certain (i.e., \( p(x) = 1 \)), then the surprise should be zero. Since we won't be surprised, however, the expression we came up with doesn't reflect that. </p>
+<p>So, let's take the log of \( \frac{1}{x} \). </p>
+<p>\[ \text{surprise} = log (\frac{1}{x}) \]</p>
+<p>Here's the graph</p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/7/sss.PNG" alt="" width="686" height="347" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/7/responsive/sss-xs.PNG 300w ,https://thenlpstudent.github.io/media/posts/7/responsive/sss-sm.PNG 480w ,https://thenlpstudent.github.io/media/posts/7/responsive/sss-md.PNG 768w ,https://thenlpstudent.github.io/media/posts/7/responsive/sss-lg.PNG 1024w ,https://thenlpstudent.github.io/media/posts/7/responsive/sss-xl.PNG 1360w ,https://thenlpstudent.github.io/media/posts/7/responsive/sss-2xl.PNG 1600w"></figure>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">This is a much better expression, as now, when the probability is 1 for a certain event, the surprise is 0. </span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">And if the probability for an event is closer to zero (unlikely to happen), then the surprise is closer to infinity! </span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Entropy is then just expected surprise of a random variable X. </span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">To calculate expected surprise, we use the expression for EV. (Expected Values) </span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">\[ E[\text{Surprise}] = \sum_i log \left( \frac{1}{p(x_i)} \right) * p(x_i) \]</span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Now we can simplify this expression and derive the entropy expression that Shannon described in his paper in 1948, "A mathematical theory of communication." </span></p>
+<p><strong><span data-preserver-spaces="true">Note that surprise is synonymous with uncertainty. </span></strong></p>
+<p>\[ \begin{equation} \label{eq1} \begin{split} \text{Entropy} &amp; = \sum_i log \left( \frac{1}{p(x_i)} \right) * p(x_i) \\ &amp; = \sum_i p(x_i) * log \left( \frac{1}{p(x_i)} \right) \\ &amp; = \sum_i p(x_i) * ( log(1) - log(p(x_i))) \\ &amp; = \sum_i p(x_i) * log(1) - p(x_i)*log(p(x_i)) \\ &amp; = \sum_i - p(x_i)*log(p(x_i)) \\ &amp; = - \sum_i p(x_i)*log(p(x_i)) \\ \end{split} \end{equation} \]</p>
+<h2>Visualizing entropy via Python</h2>
+<p>We have three boxes (pens) with orange and blue balls. Each box (or pen) has a different probability of how the balls spawn. </p>
+<p>In the first box, more orange balls than blue balls would spawn. </p>
+<p>In the second box, more blue balls than orange balls would spawn. </p>
+<p>In the third box, both blue and orange boxes would spawn with a probability of 0.5. Both of them are equally likely to spawn. </p>
+<p>The bars denote the amount of entropy for each box, respectively.</p>
+<p>Since it's more likely that an orange or blue ball to spawn in the first and second boxes, their entropy is lower, as its uncertainty is less. </p>
+<p>But in the third box, since we don't know the ball's color, that would spawn next, then the entropy is high, meaning the uncertainty is high. </p>
+<figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/7/ludecomp.gif" alt="" width="1265" height="993"></figure>
+<p>The implementation code can be found in the following gist:  <a href="https://gist.github.com/thenlpstudent/d20b5551568dcdbac9ba78d98e29ae24">https://gist.github.com/thenlpstudent/d20b5551568dcdbac9ba78d98e29ae24</a></p>
+<p>Thanks for reading!</p>
+<h2 id="mcetoc_1gtap5prc5m">References </h2>
+<ol>
+<li>A Mathematical Theory of Communication By C. E. SHANNON<strong> (<a href="https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf">shannon1948.dvi (harvard.edu)) </a></strong></li>
+<li>Stat Quest, Expected Values and Entropy 
+<ol>
+<li><a href="https://www.youtube.com/watch?v=KLs_7b7SKi4">Expected Values, Main Ideas!!! - YouTube</a></li>
+<li><a href="https://www.youtube.com/watch?v=YtebGVx-Fxw">Entropy (for data science) Clearly Explained!!! - YouTube</a></li>
+</ol>
+</li>
+</ol>
+<p> </p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>One Shot Learning, Few Shot Learning, and Similarity </title>
         <author>
