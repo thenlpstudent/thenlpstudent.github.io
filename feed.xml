@@ -3,7 +3,7 @@
     <title>The NLP Student&#x27;s Blog</title>
     <link href="https://thenlpstudent.github.io/feed.xml" rel="self" />
     <link href="https://thenlpstudent.github.io" />
-    <updated>2023-04-12T22:04:08+05:30</updated>
+    <updated>2023-04-12T22:12:34+05:30</updated>
     <author>
         <name>The NLP Student</name>
     </author>
@@ -20,7 +20,7 @@
             <category term="Reinforcement learning"/>
             <category term="GPT"/>
 
-        <updated>2023-04-12T22:04:08+05:30</updated>
+        <updated>2023-04-12T22:12:34+05:30</updated>
             <summary>
                 <![CDATA[
                     This paper is the work of a collaboration with Deep Mind and Open AI, improving the field of Deep Reinforcement Learning. The ideas discussed in this paper are also a key component in the training of GPT-4. RL agents need good reward functions to learn complex tasks. However, it&hellip;
@@ -37,12 +37,18 @@
 <div class="post__toc">
 <h3>Table of Contents</h3>
 <ul>
-<li> </li>
 <li><a href="#mcetoc_1gthqshlp2h">Introduction </a></li>
 <li><a href="#mcetoc_1gthqshlp2i">Related Work </a></li>
-<li><a href="#mcetoc_1gthqshlp2j">The methodology </a></li>
+<li><a href="#mcetoc_1gthqshlp2j">The methodology </a>
+<ul>
+<li><a href="#mcetoc_1gtr5h2ssi9">A breakdown of the process </a></li>
+<li><a href="#mcetoc_1gtr5h2ssia">The Reward Function Estimator</a></li>
+<li><a href="#mcetoc_1gtr5h2ssib">Selecting queries and asking for human feedback</a></li>
+<li><a href="#mcetoc_1gtr5h2ssic">How feedback is processed </a></li>
+<li><a href="#mcetoc_1gtr5h2ssid">Fitting the Reward Function </a></li>
+</ul>
+</li>
 <li><a href="#mcetoc_1gthqshlp2k">Summary of results </a></li>
-<li><a href="#mcetoc_1gthqshlp2l">Future enchancements </a></li>
 </ul>
 </div>
 <h2 id="mcetoc_1gthqshlp2f"></h2>
@@ -82,25 +88,25 @@
 <p>A pair of these trajectory segments are presented to a human at any given time. The following is how we denote that the trajectory \( \sigma^1 \) is prefered over trajectory \( \sigma^2 \) by the nonexpert user. </p>
 <p>\[ \sigma^1 \succ \sigma^2 \]</p>
 <p>In informal terms, the goal of the agent in the long run is to produce trajectories which are preferred by the human, while making as few queries as possible to the human, so that less time is utilized from the prespective of the human subject (nonexpert user). </p>
-<h3>A breakdown of the process </h3>
+<h3 id="mcetoc_1gtr5h2ssi9">A breakdown of the process </h3>
 <p>At each timestep, the method proposed in the paper maintains a policy and a reward function estimate. </p>
 <p>The policy is a function that maps observations(from the state space O) to an action (in the action space A). </p>
 <p>The reward function estimate maps observations and actions to a real value (scalar). <br><br>The policy and the reward function estimator are networks that learn over time from training and experience (via updating their weights). <br><br>The policy interacts with the environment to produce a set of trajectories (sequences of state and action pairs), and traditional reinforcement learning algorithms update the policy's parameters to maximize the reward the agent gets over time. <br><br>Specific pairs of segments sampled from the trajectories are taken and sent to a human for comparison and feedback. <br><br>The parameters of the reward function estimator are updated via supervised learning to fit with the comparisons made by the non-expert human user. <br><br>All these actions mentioned above run asynchronously from one to the other without halting the overall learning process of the agent. <br><br>The agent or the reward function estimator doesn't halt until the human subject gives feedback, and the systems run asynchronously in the background.  </p>
-<h3>The Reward Function Estimator</h3>
+<h3 id="mcetoc_1gtr5h2ssia">The Reward Function Estimator</h3>
 <p>The following diagram below shows their reward function estimator architecture. <br><br></p>
 <figure class="post__image align-center"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/9/Group-14.png" alt="" width="961" height="360" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/9/responsive/Group-14-xs.png 300w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-14-sm.png 480w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-14-md.png 768w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-14-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-14-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-14-2xl.png 1600w"></figure>
 <p>It's a convolutional neural network with multiple convolutional layers, with the input as the state, and the output is a scalar value, which is also normalized via a sigmoid function to be a value between -1 and 1. <br><br>This reward is then given to the RL agent for any action it chooses to do. <br><br>The human non-expert trains the reward function estimator via feedback so that for each different state, suitable rewards are given that fit in line with the human's preferences. </p>
-<h3>Selecting queries and asking for human feedback</h3>
+<h3 id="mcetoc_1gtr5h2ssib">Selecting queries and asking for human feedback</h3>
 <p>One of the main goals of this paper is to minimize human time and ask for as little feedback as possible when training an RL agent to do a complex task. <br><br>The reward function estimator cannot query the human every time.  <br>Ideally, it should query the human subject when unsure what reward to give to a particular state and action pair.<br><br>In their method, they use several reward function estimators in an ensemble (of size 3) and consider all of the networks' predictions in the ensemble, when trying to get feedback from the non-expert human subject. </p>
 <p>The diagram below shows a high-level picture of how the overall process works. </p>
 <p>Many pairs of trajectory segments sampled from the buffer are run through the reward function estimators in the ensemble. Each network tries to predict which pair of trajectories are more likely to align with human preferences by scoring them. (A high reward predicted means the network "thinks" that the given trajectory is better, and vice versa) </p>
 <figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/9/Group-15.png" alt="" width="2524" height="2341" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/9/responsive/Group-15-xs.png 300w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-15-sm.png 480w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-15-md.png 768w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-15-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-15-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-15-2xl.png 1600w"></figure>
 <p>Sometimes the networks in the ensemble cannot commonly agree on which two trajectories might be better than the other, meaning those two trajectories would have high variance, the highest pair, which contains the most amount of variance, is sent to the human subject for feedback. <br><br>The two pairs of trajectories selected forms a query, and the feedback from the human helps the reward estimator produce better rewards in the future aligned with human preferences. </p>
-<h3>How feedback is processed </h3>
+<h3 id="mcetoc_1gtr5h2ssic">How feedback is processed </h3>
 <p>The human subject is shown two short video clips of the pair of trajectories, lasting for about 1 or 2 seconds. <br><br>The subject can then select whether the first clip is the best, if the second clip is the best, or if they can't decide. This response is recorded and used to construct training data for the reward estimator function to train on.</p>
 <p>This forms a tuple  \( \left(\sigma^1, \sigma^2, \mu \right) \) where, \( \sigma^1 \) is the first trajectory, and \( \sigma^2 \) is the second trajectory, and \( \mu \) is the human preference distribution (feedback). <br><br>The below diagram illustrates how \( \mu \) is created. </p>
 <figure class="post__image"><img loading="lazy"  src="https://thenlpstudent.github.io/media/posts/9/Group-3.png" alt="" width="460" height="478" sizes="(max-width: 48em) 100vw, 768px" srcset="https://thenlpstudent.github.io/media/posts/9/responsive/Group-3-xs.png 300w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-3-sm.png 480w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-3-md.png 768w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-3-lg.png 1024w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-3-xl.png 1360w ,https://thenlpstudent.github.io/media/posts/9/responsive/Group-3-2xl.png 1600w"></figure>
-<h3>Fitting the Reward Function </h3>
+<h3 id="mcetoc_1gtr5h2ssid">Fitting the Reward Function </h3>
 <p>The probability that the reward estimator function prefering trajectory \( \sigma^1 \) over \( \sigma^2 \) can be denoted by the following probability expression, </p>
 <p>\[\hat{P}[\sigma^1 \succ \sigma^2] = \frac{\exp \sum \hat{r} \left( o^1_t , a^1_t \right) }{\exp \sum \hat{r} \left( o^1_t , a^1_t \right) + \exp \sum \hat{r} \left( o^2_t , a^2_t \right)}\]<br><br>And the probability that the reward estimator function prefering trajectory \( \sigma^2\) over \( \sigma^1 \) can be denoted by the following probability expression, </p>
 <p>\[\hat{P}[\sigma^2 \succ \sigma^1] = \frac{\exp \sum \hat{r} \left( o^2_t , a^2_t \right) }{\exp \sum \hat{r} \left( o^1_t , a^1_t \right) + \exp \sum \hat{r} \left( o^2_t , a^2_t \right)}\]</p>
