@@ -3,12 +3,51 @@
     <title>The NLP Student&#x27;s Blog</title>
     <link href="https://thenlpstudent.github.io/feed.xml" rel="self" />
     <link href="https://thenlpstudent.github.io" />
-    <updated>2023-04-12T22:12:34+05:30</updated>
+    <updated>2023-05-26T20:22:40+05:30</updated>
     <author>
         <name>The NLP Student</name>
     </author>
     <id>https://thenlpstudent.github.io</id>
 
+    <entry>
+        <title>Summary of the &quot;Generalization Bounds via Convex Analysis&quot; Paper</title>
+        <author>
+            <name>The NLP Student</name>
+        </author>
+        <link href="https://thenlpstudent.github.io/summary-of-the-generalization-bounds-via-convex-analysis-paper.html"/>
+        <id>https://thenlpstudent.github.io/summary-of-the-generalization-bounds-via-convex-analysis-paper.html</id>
+
+        <updated>2023-05-26T20:22:40+05:30</updated>
+            <summary>
+                <![CDATA[
+                    The "Generalization Bounds via Convex Analysis" paper by Gergely Neu, and Gábor Lugosi, discusses the generalization error of supervised learning algorithms and how it can be bounded regarding the mutual information between their input and output. The authors generalize this result beyond the standard choice&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p><span data-preserver-spaces="true">The <strong>"Generalization Bounds via Convex Analysis" paper by Gergely Neu, and Gábor Lugosi</strong>, discusses the generalization error of supervised learning algorithms and how it can be bounded regarding the mutual information between their input and output.</span></p>
+<p><span data-preserver-spaces="true">The authors generalize this result beyond the standard choice of Shannon's mutual information to measure the dependence between the input and output.</span></p>
+<p><strong><span data-preserver-spaces="true">Shannon's mutual information</span></strong><span data-preserver-spaces="true"> is a measure of the amount of information that is shared by two random variables.</span></p>
+<p><span data-preserver-spaces="true">The </span><strong><span data-preserver-spaces="true">mutual information between two random variables, X and Y, is the difference between X's entropy and X's conditional entropy given Y. </span></strong></p>
+<p><span data-preserver-spaces="true">In previous papers, the generalization error of supervised learning algorithms was bounded by </span><strong><span data-preserver-spaces="true">Shannon's mutual information measure</span></strong><span data-preserver-spaces="true">. </span></p>
+<p><span data-preserver-spaces="true">However, this paper shows that it's possible to replace the mutual information by any </span><strong><span data-preserver-spaces="true">strongly convex function</span></strong><span data-preserver-spaces="true"> of the joint input-output distribution with the </span><strong><span data-preserver-spaces="true">subgaussianity condition</span></strong><span data-preserver-spaces="true"> on the losses replaced by a bound on an appropriately chosen </span><strong><span data-preserver-spaces="true">norm</span></strong><span data-preserver-spaces="true"> capturing the geometry of the dependence measure.</span></p>
+<p><span data-preserver-spaces="true">This fundamental proof allows us to derive a range of generalization bounds that are either entirely new or strengthen previously known ones. </span></p>
+<p><span data-preserver-spaces="true">Examples include bounds in terms of</span><strong><span data-preserver-spaces="true"> p-norm divergences</span></strong><span data-preserver-spaces="true"> and the </span><strong><span data-preserver-spaces="true">Wasserstein-2 distance</span></strong><span data-preserver-spaces="true">, which are applicable for heavy-tailed loss distributions and highly smooth loss functions.</span></p>
+<h2>Definitions</h2>
+<p><span data-preserver-spaces="true">A function is considered</span><strong><span data-preserver-spaces="true"> strongly convex</span></strong><span data-preserver-spaces="true"> if it is convex and its second derivative is greater than or equal to some positive constant. In other words, a function is strongly convex if it is always "curving up" at a rate that is at least as fast as some positive constant. This property makes strongly convex functions useful in optimization problems because they have a </span><strong><span data-preserver-spaces="true">unique minimum that can be found efficiently. </span></strong></p>
+<p><span data-preserver-spaces="true">A Subgaussian random variable is one whose tail probabilities decay exponentially. A subgaussianity condition is a condition that requires the loss of any fixed hypothesis to have a subgaussian tail.</span></p>
+<p><span data-preserver-spaces="true">A norm is a function that assigns a non-negative real number to a vector space and behaves like the distance from the origin. </span></p>
+<p><span data-preserver-spaces="true">A divergence is a function that takes two probability distributions as input and returns a number that measures how much they differ. The number returned must be non-negative and equal to zero if and only if the two distributions are identical. </span></p>
+<h2>Problem</h2>
+<p>\[gen(W_n, S_n) = L(W_n, S_n) - \mathbf{E} [\ell(W_n, \tilde{Z}) | W_n] \]</p>
+<p>\(gen(W_n, S_n) \) : The generalization error of the learning algorithm. </p>
+<p>\( L(W_n, S_n)\) : The training loss</p>
+<p>\( \mathbf{E} [\ell(W_n, \tilde{Z}) | W_n] \) : The expected loss from testing </p>
+<h2>Proof</h2>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>&quot;Deep Reinforcement Learning From Human Preferences&quot; Paper Explained</title>
         <author>
