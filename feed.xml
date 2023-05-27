@@ -3,21 +3,21 @@
     <title>The NLP Student&#x27;s Blog</title>
     <link href="https://thenlpstudent.github.io/feed.xml" rel="self" />
     <link href="https://thenlpstudent.github.io" />
-    <updated>2023-05-26T20:22:40+05:30</updated>
+    <updated>2023-05-27T10:26:18+05:30</updated>
     <author>
         <name>The NLP Student</name>
     </author>
     <id>https://thenlpstudent.github.io</id>
 
     <entry>
-        <title>Summary of the &quot;Generalization Bounds via Convex Analysis&quot; Paper</title>
+        <title>Summary of the &quot;Generalization Bounds via Convex Analysis&quot; Paper [Draft]</title>
         <author>
             <name>The NLP Student</name>
         </author>
         <link href="https://thenlpstudent.github.io/summary-of-the-generalization-bounds-via-convex-analysis-paper.html"/>
         <id>https://thenlpstudent.github.io/summary-of-the-generalization-bounds-via-convex-analysis-paper.html</id>
 
-        <updated>2023-05-26T20:22:40+05:30</updated>
+        <updated>2023-05-27T10:26:18+05:30</updated>
             <summary>
                 <![CDATA[
                     The "Generalization Bounds via Convex Analysis" paper by Gergely Neu, and Gábor Lugosi, discusses the generalization error of supervised learning algorithms and how it can be bounded regarding the mutual information between their input and output. The authors generalize this result beyond the standard choice&hellip;
@@ -44,6 +44,9 @@
 <p>\( L(W_n, S_n)\) : The training loss</p>
 <p>\( \mathbf{E} [\ell(W_n, \tilde{Z}) | W_n] \) : The expected loss from testing </p>
 <h2>Proof</h2>
+<p> </p>
+<h2>References </h2>
+<p>1. Generalization Bounds via Convex Analysis (<a href="https://arxiv.org/search/stat?searchtype=author&amp;query=Lugosi%2C+G">Gábor Lugosi</a>, <a href="https://arxiv.org/search/stat?searchtype=author&amp;query=Neu%2C+G">Gergely Neu) </a>- <a target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2202.04985</a></p>
 <p> </p>
             ]]>
         </content>
